@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TenPenny : MonoBehaviour
 {
+    public Sprite[] cardFaces;
     public static string[] suits = new string[] { "C", "D", "H", "S"};
     public List<string> deck;
     // Start is called before the first frame update
@@ -21,12 +22,12 @@ public class TenPenny : MonoBehaviour
     public void PlayCards()
     {
         deck = GenerateDeck();
-        Shuffle(deck);
 
-        // foreach (string card in deck)
-        // {
-        //     print(card);
-        // }
+        foreach (string card in deck)
+        {
+            print(card);
+        }
+        Shuffle(deck);
     }
 
     public static List<string> GenerateDeck()
