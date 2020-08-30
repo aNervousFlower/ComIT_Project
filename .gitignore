@@ -8,7 +8,7 @@
 [Oo]bj/
 [Bb]uild
 /[Bb]uilds/
-/[Ll]ibrary/
+**/[Ll]ibrary/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
@@ -21,11 +21,11 @@ sysinfo.txt
 [Ee]xported[Oo]bj/
 .vs/
 /*.userprefs
-/*.csproj
+**/*.csproj
 /*.pidb
 *.pidb.meta
 /*.suo
-/*.sln*
+**/*.sln*
 /*.user
 /*.unityproj
 /*.booproj
