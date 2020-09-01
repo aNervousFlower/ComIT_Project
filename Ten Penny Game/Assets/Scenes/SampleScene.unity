@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 192554220}
   - component: {fileID: 192554221}
   m_Layer: 0
-  m_Name: Deck Button
+  m_Name: DeckButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,6 +285,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &913047279 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
+    type: 3}
+  m_PrefabInstance: {fileID: 2636641762468423495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &913047280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913047279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ef5cdbcb92307408280b03e2a10c33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  faceUp: 0
+--- !u!1 &1010075822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1010075823}
+  m_Layer: 0
+  m_Name: PlayerHandPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1010075823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010075822}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.5, y: -4.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268859387
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +462,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cb84a51d3c79fcd48b8e2f978d46991a, type: 3}
   - {fileID: 21300000, guid: e615af29c0750df4bb16deaf526950d1, type: 3}
   - {fileID: 21300000, guid: 4a0fbe345c7052f4380e24da48ddae10, type: 3}
+  cardPrefab: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
+    type: 3}
+  playerHandPos: {fileID: 1010075822}
+  playerHand: []
   deck: []
 --- !u!4 &1765491947
 Transform:
@@ -495,5 +548,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
+    - target: {fileID: 8692791956380407262, guid: 863ffc96738ce2641a6bd9fe85a6a783,
+        type: 3}
+      propertyPath: cardBack
+      value: 
+      objectReference: {fileID: 21300000, guid: a94ff71d11aec9749bbbe2f80ac03ac1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863ffc96738ce2641a6bd9fe85a6a783, type: 3}
