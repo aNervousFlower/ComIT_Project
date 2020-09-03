@@ -54,7 +54,7 @@ public class TenPenny : MonoBehaviour
     }
 
     // shuffle algorithm found at https://stackoverflow.com/questions/273313/randomize-a-listt
-    private static void Shuffle<T>(List<T> list)  
+    public static void Shuffle<T>(List<T> list)  
     {
         System.Random rng = new System.Random();
         int n = list.Count;  
