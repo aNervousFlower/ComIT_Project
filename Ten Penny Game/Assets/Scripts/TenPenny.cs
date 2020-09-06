@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class TenPenny : MonoBehaviour
 {
@@ -32,7 +33,8 @@ public class TenPenny : MonoBehaviour
         //     print(card);
         // }
         Shuffle(deck);
-        DealHand();
+        DealPlayerHand();
+// print("here");
     }
 
     public static List<string> GenerateDeck(int numOfDecks = 1)
@@ -68,14 +70,63 @@ public class TenPenny : MonoBehaviour
         }
     }
 
-    void DealHand()
+    void DealPlayerHand()
     {
         for (int i = 0; i < 11; i++)
         {
             playerHand.Add(deck.Last<string>());
             deck.RemoveAt(deck.Count - 1);
         }
+        DisplayPlayerHand();
+    }
 
+    public void SortPlayerHand()
+    {
+        DestroyPlayerHand();
+        SortCards(playerHand);
+        DisplayPlayerHand();
+    }
+
+    public static void SortCards(List<string> cards)
+    {
+        cards.Sort(CompareCards);
+    }
+
+    public static int CompareCards(string c1, string c2)
+    {
+        // returns 0 if the cards are equal
+        // returns positive int if c1 sorts BEFORE c2
+        // returns negative int if c1 sorts AFTER c2
+        // overall sort is reversed because they are displayed in reverse order
+        if (c1.Substring(1) == "JOKER")
+        {
+            return 1;
+        }
+        else if (c2.Substring(1) == "JOKER")
+        {
+            return -1;
+        }
+
+        int c1value = Int32.Parse(c1.Substring(1));
+        int c2value = Int32.Parse(c2.Substring(1));
+
+        if (c1value == c2value)
+        {
+            return c1.Substring(0,1).CompareTo(c2.Substring(0,1));
+        }
+        else if (c1value == 1)
+        {
+            return -1;
+        }
+        else if (c2value == 1)
+        {
+            return 1;
+        }
+        return c2value - c1value;
+    }
+
+    private void DisplayPlayerHand()
+    {
         float yOffset = 0;
         float xOffset = 0;
         float zOffset = 0.03f;
@@ -85,10 +136,20 @@ public class TenPenny : MonoBehaviour
                 playerHandPos.transform.position.y - yOffset, playerHandPos.transform.position.z + zOffset);
             GameObject newCard = Instantiate(cardPrefab, vector, Quaternion.identity, playerHandPos.transform);
             newCard.name = card;
+            newCard.tag = "PlayerHand";
             newCard.GetComponent<Selectable>().faceUp = true;
 
             xOffset -= 0.3f;
             zOffset += 0.03f;
+        }
+    }
+
+    private void DestroyPlayerHand()
+    {
+        GameObject[] hand = GameObject.FindGameObjectsWithTag("PlayerHand");
+        foreach (GameObject card in hand)
+        {
+            Destroy(card);
         }
     }
 }
