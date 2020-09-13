@@ -152,4 +152,12 @@ public class TenPenny : MonoBehaviour
             Destroy(card);
         }
     }
+
+    public void DrawCard()
+    {
+        playerHand.Add(deck.Last<string>());
+        deck.RemoveAt(deck.Count - 1);
+        DestroyPlayerHand();
+        DisplayPlayerHand();
+    }
 }
