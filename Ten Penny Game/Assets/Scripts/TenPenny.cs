@@ -11,7 +11,7 @@ public class TenPenny : MonoBehaviour
     public GameObject playerHandPos;
     public static string[] suits = new string[] { "C", "D", "H", "S"};
     public List<string> playerHand = new List<string>();
-    public List<string> deck;
+    public GameDeck deck;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,56 +26,21 @@ public class TenPenny : MonoBehaviour
 
     public void PlayCards()
     {
-        deck = GenerateDeck(2);
+        this.deck = new GameDeck(2);
 
         // foreach (string card in deck)
         // {
         //     print(card);
         // }
-        Shuffle(deck);
+        this.deck.Shuffle();
         DealPlayerHand();
-// print("here");
-    }
-
-    public static List<string> GenerateDeck(int numOfDecks = 1)
-    {
-        List<string> newDeck = new List<string>();
-        for (int deckCount = 0; deckCount < numOfDecks; deckCount++)
-        {
-            newDeck.Add("1JOKER"); // each deck contains two jokers
-            newDeck.Add("2JOKER");
-            foreach (string suit in suits)
-            {
-                for (int value = 1; value <= 13; value++)
-                {
-                    newDeck.Add(suit + value);
-                }
-            }
-        }
-        return newDeck;
-    }
-
-    // shuffle algorithm found at https://stackoverflow.com/questions/273313/randomize-a-listt
-    public static void Shuffle<T>(List<T> list)  
-    {
-        System.Random rng = new System.Random();
-        int n = list.Count;  
-        while (n > 1)
-        {  
-            int k = rng.Next(n);
-            n--;
-            T temp = list[k];  
-            list[k] = list[n];  
-            list[n] = temp;
-        }
     }
 
     void DealPlayerHand()
     {
         for (int i = 0; i < 11; i++)
         {
-            playerHand.Add(deck.Last<string>());
-            deck.RemoveAt(deck.Count - 1);
+            playerHand.Add(this.deck.DrawCard());
         }
         DisplayPlayerHand();
     }
@@ -153,10 +118,9 @@ public class TenPenny : MonoBehaviour
         }
     }
 
-    public void DrawCard()
+    public void DrawCardToPlayerHand()
     {
-        playerHand.Add(deck.Last<string>());
-        deck.RemoveAt(deck.Count - 1);
+        playerHand.Add(this.deck.DrawCard());
         DestroyPlayerHand();
         DisplayPlayerHand();
     }

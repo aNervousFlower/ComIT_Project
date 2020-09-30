@@ -12,11 +12,11 @@ public class UpdateSprite : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List<string> deck = TenPenny.GenerateDeck();
+        GameDeck sampleDeck = new GameDeck();
         tenPenny = FindObjectOfType<TenPenny>();
 
         int i = 0;
-        foreach (string card in deck)
+        foreach (string card in sampleDeck.cardList)
         {
             if (this.name == card)
             {

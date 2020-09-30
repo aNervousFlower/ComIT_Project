@@ -43,7 +43,7 @@ public class UserInput : MonoBehaviour
     {
         print("clicked on Deck");
 
-        tenPenny.DrawCard();
+        tenPenny.DrawCardToPlayerHand();
     }
 
     void PlayerHand()
