@@ -10,6 +10,7 @@ public class TenPenny : MonoBehaviour
     public GameObject playerHandPos;
     private PlayerHand playerHand;
     private GameDeck deck;
+    private DiscardPile discardPile;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class TenPenny : MonoBehaviour
     {
         this.deck = new GameDeck(2);
         this.playerHand = FindObjectOfType<PlayerHand>();
+        this.discardPile = FindObjectOfType<DiscardPile>();
 
         // foreach (string card in deck)
         // {
@@ -33,6 +35,7 @@ public class TenPenny : MonoBehaviour
         // }
         this.deck.Shuffle();
         DealPlayerHand();
+        DealDiscordPile();
     }
 
     private void DealPlayerHand()
@@ -42,6 +45,11 @@ public class TenPenny : MonoBehaviour
             this.playerHand.AddCard(this.deck.DrawCard());
         }
         this.playerHand.DisplayHand();
+    }
+
+    private void DealDiscordPile()
+    {
+        this.discardPile.AddCard(this.deck.DrawCard());
     }
 
     public void SortPlayerHand()
