@@ -63,4 +63,10 @@ public class TenPenny : MonoBehaviour
         this.playerHand.AddCard(this.deck.DrawCard());
         this.playerHand.RefreshHand();
     }
+
+    public void DiscardCardFromPlayerHand(string card)
+    {
+        this.playerHand.RemoveCard(card);
+        this.discardPile.AddCard(card);
+    }
 }

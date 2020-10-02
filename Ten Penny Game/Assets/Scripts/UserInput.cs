@@ -10,7 +10,7 @@ public class UserInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tenPenny = FindObjectOfType<TenPenny>();
+        this.tenPenny = FindObjectOfType<TenPenny>();
     }
 
     // Update is called once per frame
@@ -40,6 +40,10 @@ public class UserInput : MonoBehaviour
                     {
                         PlayerHand();
                     }
+                    else if (this.mouseUpHit.collider.CompareTag("DiscardPile"))
+                    {
+                        DiscardPile();
+                    }
                 }
                 else
                 {
@@ -61,7 +65,7 @@ public class UserInput : MonoBehaviour
     {
         print("clicked on Deck");
 
-        tenPenny.DrawCardToPlayerHand();
+        this.tenPenny.DrawCardToPlayerHand();
     }
 
     void PlayerHand()
@@ -69,10 +73,21 @@ public class UserInput : MonoBehaviour
         print("clicked on PlayerHand");
     }
 
+    void DiscardPile()
+    {
+        print("clicked on DiscardPile");
+    }
+
     private void DragClick()
     {
         print("Dragging Click");
         print("Down: " + this.mouseDownHit.collider.ToString());
         print("Up: " + this.mouseUpHit.collider.ToString());
+
+        if (this.mouseDownHit.collider.CompareTag("PlayerHand") &&
+            this.mouseUpHit.collider.CompareTag("DiscardPile"))
+            {
+                this.tenPenny.DiscardCardFromPlayerHand(this.mouseDownHit.collider.name);
+            }
     }
 }
