@@ -554,6 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1010075823}
+  - component: {fileID: 1010075824}
   m_Layer: 0
   m_Name: PlayerHandPos
   m_TagString: Untagged
@@ -575,6 +576,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1010075824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010075822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbb288b94ba9a9e41a92f0c15e487b94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
+    type: 3}
 --- !u!1 &1168518842
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,11 +914,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cb84a51d3c79fcd48b8e2f978d46991a, type: 3}
   - {fileID: 21300000, guid: e615af29c0750df4bb16deaf526950d1, type: 3}
   - {fileID: 21300000, guid: 4a0fbe345c7052f4380e24da48ddae10, type: 3}
-  cardPrefab: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
-    type: 3}
   playerHandPos: {fileID: 1010075822}
-  playerHand: []
-  deck: []
 --- !u!4 &1765491947
 Transform:
   m_ObjectHideFlags: 0
