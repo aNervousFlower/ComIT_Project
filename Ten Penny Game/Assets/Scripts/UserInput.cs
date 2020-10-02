@@ -7,6 +7,10 @@ public class UserInput : MonoBehaviour
     public RaycastHit2D mouseDownHit;
     public RaycastHit2D mouseUpHit;
     private TenPenny tenPenny;
+    private float timer;
+    private static float doubleClickTime = 0.3f;
+    private int clickCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +20,22 @@ public class UserInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.clickCount == 1)
+        {
+            this.timer += Time.deltaTime;
+        }
+        else if (this.clickCount == 3)
+        {
+            this.timer = 0;
+            this.clickCount = 1;
+        }
+
+        if (this.timer > doubleClickTime)
+        {
+            this.timer = 0;
+            this.clickCount = 0;
+        }
+
         GetMouseClick();
     }
 
@@ -23,6 +43,7 @@ public class UserInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            this.clickCount++;
             this.mouseDownHit = UserInput.GetHit();
         }
         else if (Input.GetMouseButtonUp(0))
@@ -53,6 +74,19 @@ public class UserInput : MonoBehaviour
         }
     }
 
+    private bool IsDoubleClick()
+    {
+        if (this.timer < doubleClickTime && this.clickCount == 2)
+        {
+            print("Double-Click");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private static RaycastHit2D GetHit()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(
@@ -71,6 +105,11 @@ public class UserInput : MonoBehaviour
     void PlayerHand()
     {
         print("clicked on PlayerHand");
+
+        if (IsDoubleClick())
+        {
+            this.tenPenny.DiscardCardFromPlayerHand(this.mouseUpHit.collider.name);
+        }
     }
 
     void DiscardPile()
