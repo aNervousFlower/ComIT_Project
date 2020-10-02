@@ -57,6 +57,12 @@ public class PlayerHand : MonoBehaviour
         this.cardList.Add(card);
     }
 
+    public void RemoveCard(string card)
+    {
+        this.cardList.Remove(card);
+        RefreshHand();
+    }
+
     public void SortCards()
     {
         this.cardList.Sort(CompareCards);
