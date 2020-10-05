@@ -115,6 +115,11 @@ public class UserInput : MonoBehaviour
     void DiscardPile()
     {
         print("clicked on DiscardPile");
+
+        if (IsDoubleClick())
+        {
+            this.tenPenny.BuyCard();
+        }
     }
 
     private void DragClick()

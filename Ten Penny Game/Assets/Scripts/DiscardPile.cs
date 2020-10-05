@@ -20,6 +20,14 @@ public class DiscardPile : MonoBehaviour
         RefreshTopCard();
     }
 
+    public string DrawCard()
+    {
+        string topCard = this.cardList.Last<string>();
+        this.cardList.RemoveAt(cardList.Count - 1);
+        RefreshTopCard();
+        return topCard;
+    }
+
     private void DisplayTopCard()
     {
         string topCard = this.cardList.Last<string>();
@@ -46,6 +54,9 @@ public class DiscardPile : MonoBehaviour
     public void RefreshTopCard()
     {
         DestroyTopCardObject();
-        DisplayTopCard();
+        if (this.cardList.Count > 0)
+        {
+            DisplayTopCard();
+        }
     }
 }
