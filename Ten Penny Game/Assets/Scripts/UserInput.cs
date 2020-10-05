@@ -6,6 +6,7 @@ public class UserInput : MonoBehaviour
 {
     public RaycastHit2D mouseDownHit;
     public RaycastHit2D mouseUpHit;
+    public RaycastHit2D lastMouseUpHit;
     private TenPenny tenPenny;
     private float timer;
     private static float doubleClickTime = 0.3f;
@@ -48,6 +49,7 @@ public class UserInput : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            this.lastMouseUpHit = this.mouseUpHit;
             this.mouseUpHit = UserInput.GetHit();
             if (this.mouseUpHit && this.mouseDownHit)
             {
@@ -76,7 +78,8 @@ public class UserInput : MonoBehaviour
 
     private bool IsDoubleClick()
     {
-        if (this.timer < doubleClickTime && this.clickCount == 2)
+        if (this.timer < doubleClickTime && this.clickCount == 2 &&
+            this.mouseUpHit.collider.ToString() == this.lastMouseUpHit.collider.ToString())
         {
             print("Double-Click");
             return true;
@@ -109,6 +112,10 @@ public class UserInput : MonoBehaviour
         if (IsDoubleClick())
         {
             this.tenPenny.DiscardCardFromPlayerHand(this.mouseUpHit.collider.name);
+        }
+        else
+        {
+            this.tenPenny.SelectPlayerCard(this.mouseUpHit.collider.gameObject);
         }
     }
 

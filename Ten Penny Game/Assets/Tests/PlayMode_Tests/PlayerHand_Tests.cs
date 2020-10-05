@@ -65,5 +65,45 @@ namespace Tests
             Assert.AreEqual(cardList[9], "D2");
             Assert.AreEqual(cardList[10], "2JOKER");
         }
+
+        [Test]
+        public void SelectCard_Test()
+        {
+            PlayerHand hand = new GameObject().AddComponent<PlayerHand>();
+            List<GameObject> selectedCards = hand.selectedCards;
+
+            GameObject cardC1 = new GameObject();
+            GameObject cardS4 = new GameObject();
+            GameObject cardH11 = new GameObject();
+
+            Assert.AreEqual(Color.yellow, hand.SelectCard(cardC1));
+            Assert.AreEqual(selectedCards.Count, 1);
+            Assert.AreEqual(selectedCards[0], cardC1);
+
+            Assert.AreEqual(Color.yellow, hand.SelectCard(cardS4));
+            Assert.AreEqual(selectedCards.Count, 2);
+            Assert.AreEqual(selectedCards[0], cardC1);
+            Assert.AreEqual(selectedCards[1], cardS4);
+
+            Assert.AreEqual(Color.white, hand.SelectCard(cardC1));
+            Assert.AreEqual(selectedCards.Count, 1);
+            Assert.AreEqual(selectedCards[0], cardS4);
+
+            Assert.AreEqual(Color.yellow, hand.SelectCard(cardH11));
+            Assert.AreEqual(selectedCards.Count, 2);
+            Assert.AreEqual(selectedCards[0], cardS4);
+            Assert.AreEqual(selectedCards[1], cardH11);
+
+            Assert.AreEqual(Color.yellow, hand.SelectCard(cardC1));
+            Assert.AreEqual(selectedCards.Count, 3);
+            Assert.AreEqual(selectedCards[0], cardS4);
+            Assert.AreEqual(selectedCards[1], cardH11);
+            Assert.AreEqual(selectedCards[2], cardC1);
+
+            Assert.AreEqual(Color.white, hand.SelectCard(cardH11));
+            Assert.AreEqual(selectedCards.Count, 2);
+            Assert.AreEqual(selectedCards[0], cardS4);
+            Assert.AreEqual(selectedCards[1], cardC1);
+        }
     }
 }

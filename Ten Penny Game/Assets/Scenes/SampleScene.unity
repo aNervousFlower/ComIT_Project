@@ -1119,7 +1119,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cb84a51d3c79fcd48b8e2f978d46991a, type: 3}
   - {fileID: 21300000, guid: e615af29c0750df4bb16deaf526950d1, type: 3}
   - {fileID: 21300000, guid: 4a0fbe345c7052f4380e24da48ddae10, type: 3}
-  playerHandPos: {fileID: 1010075822}
 --- !u!4 &1765491947
 Transform:
   m_ObjectHideFlags: 0

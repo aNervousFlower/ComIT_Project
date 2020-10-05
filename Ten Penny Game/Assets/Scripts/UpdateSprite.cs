@@ -41,4 +41,9 @@ public class UpdateSprite : MonoBehaviour
             spriteRenderer.sprite = cardBack;
         }
     }
+
+    public void SetColour(Color colour)
+    {
+        spriteRenderer.color = colour;
+    }
 }
