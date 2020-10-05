@@ -83,4 +83,10 @@ public class TenPenny : MonoBehaviour
             this.playerHand.RefreshHand();
         }
     }
+
+    public void SelectPlayerCard(GameObject card)
+    {
+        Color colour = this.playerHand.SelectCard(card);
+        card.GetComponent<UpdateSprite>().SetColour(colour);
+    }
 }

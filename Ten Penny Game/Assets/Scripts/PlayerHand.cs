@@ -7,12 +7,14 @@ public class PlayerHand : MonoBehaviour
 {
     public List<string> cardList {get;}
     public List<GameObject> cardObjectList {get;}
+    public List<GameObject> selectedCards {get;}
     public GameObject cardPrefab;
     
     public PlayerHand()
     {
         this.cardList = new List<string>();
         this.cardObjectList = new List<GameObject>();
+        this.selectedCards = new List<GameObject>();
     }
 
     public void DisplayHand()
@@ -42,6 +44,7 @@ public class PlayerHand : MonoBehaviour
     {
         foreach (GameObject card in this.cardObjectList)
         {
+            this.selectedCards.Remove(card);
             Destroy(card);
         }
     }
@@ -99,5 +102,19 @@ public class PlayerHand : MonoBehaviour
             return 1;
         }
         return c2value - c1value;
+    }
+
+    public Color SelectCard(GameObject card)
+    {
+        if (this.selectedCards.Contains(card) == false)
+        {
+            this.selectedCards.Add(card);
+            return Color.yellow;
+        }
+        else
+        {
+            this.selectedCards.Remove(card);
+            return Color.white;
+        }
     }
 }
