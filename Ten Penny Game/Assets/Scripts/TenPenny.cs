@@ -11,6 +11,7 @@ public class TenPenny : MonoBehaviour
     private GameDeck deck;
     private DiscardPile discardPile;
     private PlayerState playerState;
+    private GameRound gameRound;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class TenPenny : MonoBehaviour
         this.playerHand = FindObjectOfType<PlayerHand>();
         this.discardPile = FindObjectOfType<DiscardPile>();
         this.playerState = new PlayerState(this.playerHand);
+        this.gameRound = new GameRound(1, 1, 3);
 
         // foreach (string card in deck)
         // {
