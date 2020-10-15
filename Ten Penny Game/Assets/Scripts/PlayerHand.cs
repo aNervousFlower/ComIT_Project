@@ -104,17 +104,27 @@ public class PlayerHand : MonoBehaviour
         return c2value - c1value;
     }
 
-    public Color SelectCard(GameObject card)
+    public bool SelectCard(GameObject card)
     {
         if (this.selectedCards.Contains(card) == false)
         {
             this.selectedCards.Add(card);
-            return Color.yellow;
+            return true;
         }
         else
         {
             this.selectedCards.Remove(card);
-            return Color.white;
+            return false;
         }
+    }
+
+    public List<string> GetSelectedCardsList()
+    {
+        List<string> selectedList = new List<string>();
+        foreach (GameObject card in this.selectedCards)
+        {
+            selectedList.Add(card.name);
+        }
+        return selectedList;
     }
 }

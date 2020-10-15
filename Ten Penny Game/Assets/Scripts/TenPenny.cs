@@ -88,7 +88,19 @@ public class TenPenny : MonoBehaviour
 
     public void SelectPlayerCard(GameObject card)
     {
-        Color colour = this.playerHand.SelectCard(card);
-        card.GetComponent<UpdateSprite>().SetColour(colour);
+        // remove colour from card if it is deselected
+        if (this.playerHand.SelectCard(card) == false)
+        {
+            card.GetComponent<UpdateSprite>().SetColour(Color.white);
+        }
+
+        // colour the selected cards yellow if they are NOT a valid selection
+        // to play, and cyan if they ARE a valid selection to play
+        Color colour = (this.gameRound.CanPlaySelectedCards(
+            this.playerHand.GetSelectedCardsList())) ? Color.cyan : Color.yellow;
+        foreach (GameObject selectedCard in this.playerHand.selectedCards)
+        {
+            selectedCard.GetComponent<UpdateSprite>().SetColour(colour);
+        }
     }
 }
