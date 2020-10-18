@@ -13,37 +13,42 @@ public class UpdateSprite : MonoBehaviour
     void Start()
     {
         GameDeck sampleDeck = new GameDeck();
-        tenPenny = FindObjectOfType<TenPenny>();
+        this.tenPenny = FindObjectOfType<TenPenny>();
 
         int i = 0;
         foreach (string card in sampleDeck.cardList)
         {
             if (this.name == card)
             {
-                cardFace = tenPenny.cardFaces[i];
+                this.cardFace = this.tenPenny.cardFaces[i];
                 break;
             }
             i++;
         }
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        selectable = GetComponent<Selectable>();
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.selectable = GetComponent<Selectable>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (selectable.faceUp == true)
+        if (this.selectable.faceUp == true)
         {
-            spriteRenderer.sprite = cardFace;
+            this.spriteRenderer.sprite = this.cardFace;
         }
         else
         {
-            spriteRenderer.sprite = cardBack;
+            this.spriteRenderer.sprite = this.cardBack;
         }
     }
 
     public void SetColour(Color colour)
     {
-        spriteRenderer.color = colour;
+        this.spriteRenderer.color = colour;
+    }
+
+    public Color GetColour()
+    {
+        return this.spriteRenderer.color;
     }
 }

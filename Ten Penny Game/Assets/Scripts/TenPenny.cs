@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using System;
 
@@ -12,9 +13,11 @@ public class TenPenny : MonoBehaviour
     private DiscardPile discardPile;
     private PlayerState playerState;
     private GameRound gameRound;
+    private Button playCardsButton;
     // Start is called before the first frame update
     void Start()
     {
+        this.playCardsButton = GameObject.Find("PlayCardsButton").GetComponent<Button>();
         PlayCards();
     }
 
@@ -32,10 +35,6 @@ public class TenPenny : MonoBehaviour
         this.playerState = new PlayerState(this.playerHand);
         this.gameRound = new GameRound(1, 1, 3);
 
-        // foreach (string card in deck)
-        // {
-        //     print(card);
-        // }
         this.deck.Shuffle();
         DealPlayerHand();
         DealDiscordPile();
@@ -88,7 +87,26 @@ public class TenPenny : MonoBehaviour
 
     public void SelectPlayerCard(GameObject card)
     {
-        Color colour = this.playerHand.SelectCard(card);
-        card.GetComponent<UpdateSprite>().SetColour(colour);
+        // remove colour from card if it is deselected
+        if (this.playerHand.SelectCard(card) == false)
+        {
+            card.GetComponent<UpdateSprite>().SetColour(Color.white);
+        }
+
+        // colour the selected cards yellow if they are NOT a valid selection
+        // to play, and cyan if they ARE a valid selection to play
+        bool playable = this.gameRound.CanPlaySelectedCards(this.playerHand.GetSelectedCardsList());
+        this.playCardsButton.interactable = playable;
+        Color colour = (playable) ? Color.cyan : Color.yellow;
+        foreach (GameObject selectedCard in this.playerHand.selectedCards)
+        {
+            selectedCard.GetComponent<UpdateSprite>().SetColour(colour);
+        }
+    }
+
+    public void PlaySelectedCards()
+    {
+        this.playerHand.PlaySelectedCards(this.gameRound);
+        this.playCardsButton.interactable = false;
     }
 }
