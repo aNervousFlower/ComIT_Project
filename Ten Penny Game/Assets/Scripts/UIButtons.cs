@@ -21,4 +21,9 @@ public class UIButtons : MonoBehaviour
     {
         tenPenny.SortPlayerHand();
     }
+
+    public void PlaySelectedCards()
+    {
+        tenPenny.PlaySelectedCards();
+    }
 }

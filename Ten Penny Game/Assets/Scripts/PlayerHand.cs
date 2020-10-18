@@ -9,6 +9,12 @@ public class PlayerHand : MonoBehaviour
     public List<GameObject> cardObjectList {get;}
     public List<GameObject> selectedCards {get;}
     public GameObject cardPrefab;
+    private PlayerTable playerTable;
+
+    void Start()
+    {
+        this.playerTable = FindObjectOfType<PlayerTable>();
+    }
     
     public PlayerHand()
     {
@@ -20,7 +26,7 @@ public class PlayerHand : MonoBehaviour
     public void DisplayHand()
     {
         float yOffset = 0;
-        float xOffset = 0;
+        float xOffset = (this.cardList.Count - 1) * 0.15f;
         float zOffset = 0.03f;
         foreach (string card in this.cardList)
         {
@@ -125,6 +131,18 @@ public class PlayerHand : MonoBehaviour
         {
             selectedList.Add(card.name);
         }
+        selectedList.Sort(CompareCards);
         return selectedList;
+    }
+
+    public void PlaySelectedCards(GameRound round)
+    {
+        List<string> selectedCardList = GetSelectedCardsList();
+        this.playerTable.PlayCards(selectedCardList, round);
+        foreach (string card in selectedCardList)
+        {
+            this.cardList.Remove(card);
+        }
+        RefreshHand();
     }
 }

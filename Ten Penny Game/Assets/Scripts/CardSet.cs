@@ -5,38 +5,48 @@ using UnityEngine;
 public class CardSet
 {
     public string type;
-    public int naturals;
-    public int wilds;
-    public CardSet(string type, int naturals, int wilds = 0)
+    public int naturals = 0;
+    public int wilds = 0;
+    public List<string> cards;
+
+    public CardSet(string type)
     {
         this.type = type;
-        this.naturals = naturals;
-        this.wilds = wilds;
+        this.cards = new List<string>();
     }
 
-    public bool AddNaturals(string type, int naturals)
+    public bool AddCard(string card)
     {
-        if (this.type == type)
+        if (card.Substring(1) == this.type)
         {
-            this.naturals += naturals;
+            this.cards.Add(card);
+            this.naturals++;
             return true;
         }
-        else
+        else if (card.Substring(1) == "2" || card.Substring(1) == "JOKER")
         {
-            return false;
+            if (this.wilds < this.naturals)
+            {
+            this.cards.Insert(0, card);
+            this.wilds++;
+            return true;
+            }
         }
+        return false;
     }
 
-    public bool AddWilds(int wilds)
+    public int GetSize()
     {
-        if (wilds <= this.naturals - this.wilds)
+        return this.cards.Count;
+    }
+
+    public override string ToString()
+    {
+        string s = "";
+        foreach (string card in this.cards)
         {
-            this.wilds += wilds;
-            return true;
+            s += ", " + card;
         }
-        else
-        {
-            return false;
-        }
+        return s.Substring(2);
     }
 }
