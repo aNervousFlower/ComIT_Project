@@ -15,6 +15,7 @@ public class TenPenny : MonoBehaviour
     private GameRound gameRound;
     private int roundNum = 1;
     private Button playCardsButton;
+    private bool singlePlayer = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +80,11 @@ public class TenPenny : MonoBehaviour
             if (this.playerHand.cardList.Count == 0)
             {
                 StartNewRound();
+            }
+            else if (this.singlePlayer)
+            {
+                // insert sleep here
+                DealDiscordPile();
             }
         }
     }
