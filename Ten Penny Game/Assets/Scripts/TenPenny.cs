@@ -63,35 +63,48 @@ public class TenPenny : MonoBehaviour
 
     public void DrawCardToPlayerHand()
     {
-        this.playerHand.AddCard(this.deck.DrawCard());
-        this.playerHand.RefreshHand();
+        if (this.playerState.Draw())
+        {
+            this.playerHand.AddCard(this.deck.DrawCard());
+            this.playerHand.RefreshHand();
+        }
     }
 
     public void DiscardCardFromPlayerHand(string card)
     {
-        this.playerHand.RemoveCard(card);
-        this.discardPile.AddCard(card);
-        if (this.playerHand.cardList.Count == 0)
+        if (this.playerState.Discard())
         {
-            StartNewRound();
+            this.playerHand.RemoveCard(card);
+            this.discardPile.AddCard(card);
+            if (this.playerHand.cardList.Count == 0)
+            {
+                StartNewRound();
+            }
         }
     }
 
     public void BuyCard()
     {
-        if (this.playerState.SpendPenny() == true)
+        if (this.playerState.Buy())
         {
-            this.playerHand.AddCard(this.discardPile.DrawCard());
-            for (int count = 0; count < 3; count++)
+            if (this.playerState.SpendPenny() == true)
             {
-                this.playerHand.AddCard(this.deck.DrawCard());
-            }
-            this.playerHand.RefreshHand();
+                this.playerHand.AddCard(this.discardPile.DrawCard());
+                for (int count = 0; count < 3; count++)
+                {
+                    this.playerHand.AddCard(this.deck.DrawCard());
+                }
+                this.playerHand.RefreshHand();
+            } 
         }
     }
 
     public void SelectPlayerCard(GameObject card)
     {
+        if (!this.playerState.CanPlay())
+        {
+            return;
+        }
         // remove colour from card if it is deselected
         if (this.playerHand.SelectCard(card) == false)
         {
@@ -113,11 +126,14 @@ public class TenPenny : MonoBehaviour
 
     public void PlaySelectedCards()
     {
-        this.playerHand.PlaySelectedCards(this.gameRound);
-        this.playCardsButton.interactable = false;
-        if (this.playerHand.cardList.Count == 0)
+        if (this.playerState.Play())
         {
-            StartNewRound();
+            this.playerHand.PlaySelectedCards(this.gameRound);
+            this.playCardsButton.interactable = false;
+            if (this.playerHand.cardList.Count == 0)
+            {
+                StartNewRound();
+            }            
         }
     }
 
