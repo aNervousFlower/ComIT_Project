@@ -9,7 +9,7 @@ public class PlayerHand : MonoBehaviour
     public List<GameObject> cardObjectList {get;}
     public List<GameObject> selectedCards {get;}
     public GameObject cardPrefab;
-    private PlayerTable playerTable;
+    public PlayerTable playerTable;
 
     void Start()
     {

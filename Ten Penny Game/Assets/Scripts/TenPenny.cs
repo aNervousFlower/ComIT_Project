@@ -13,12 +13,16 @@ public class TenPenny : MonoBehaviour
     private DiscardPile discardPile;
     private PlayerState playerState;
     private GameRound gameRound;
+    private int roundNum = 1;
     private Button playCardsButton;
     // Start is called before the first frame update
     void Start()
     {
         this.playCardsButton = GameObject.Find("PlayCardsButton").GetComponent<Button>();
-        PlayCards();
+        this.playerHand = FindObjectOfType<PlayerHand>();
+        this.discardPile = FindObjectOfType<DiscardPile>();
+        this.playerState = new PlayerState(this.playerHand);
+        PlayCards(1, 3);
     }
 
     // Update is called once per frame
@@ -27,13 +31,10 @@ public class TenPenny : MonoBehaviour
         
     }
 
-    private void PlayCards()
+    private void PlayCards(int numOfSets, int setsOf)
     {
+        this.gameRound = new GameRound(this.roundNum++, numOfSets, setsOf);
         this.deck = new GameDeck(2);
-        this.playerHand = FindObjectOfType<PlayerHand>();
-        this.discardPile = FindObjectOfType<DiscardPile>();
-        this.playerState = new PlayerState(this.playerHand);
-        this.gameRound = new GameRound(1, 1, 3);
 
         this.deck.Shuffle();
         DealPlayerHand();
@@ -46,7 +47,7 @@ public class TenPenny : MonoBehaviour
         {
             this.playerHand.AddCard(this.deck.DrawCard());
         }
-        this.playerHand.DisplayHand();
+        SortPlayerHand();
     }
 
     private void DealDiscordPile()
@@ -70,6 +71,10 @@ public class TenPenny : MonoBehaviour
     {
         this.playerHand.RemoveCard(card);
         this.discardPile.AddCard(card);
+        if (this.playerHand.cardList.Count == 0)
+        {
+            StartNewRound();
+        }
     }
 
     public void BuyCard()
@@ -95,7 +100,9 @@ public class TenPenny : MonoBehaviour
 
         // colour the selected cards yellow if they are NOT a valid selection
         // to play, and cyan if they ARE a valid selection to play
-        bool playable = this.gameRound.CanPlaySelectedCards(this.playerHand.GetSelectedCardsList());
+        bool playable = this.gameRound.CanPlaySelectedCards(
+            this.playerHand.GetSelectedCardsList(), this.playerState.GetPlayedTypes(),
+            this.playerState.GetPlayedWilds(), this.playerState.GetPlayedNaturals());
         this.playCardsButton.interactable = playable;
         Color colour = (playable) ? Color.cyan : Color.yellow;
         foreach (GameObject selectedCard in this.playerHand.selectedCards)
@@ -108,5 +115,25 @@ public class TenPenny : MonoBehaviour
     {
         this.playerHand.PlaySelectedCards(this.gameRound);
         this.playCardsButton.interactable = false;
+        if (this.playerHand.cardList.Count == 0)
+        {
+            StartNewRound();
+        }
+    }
+
+    public void StartNewRound()
+    {
+        this.playerState.NewRound();
+        if (this.roundNum <= 8)
+        {
+            int numOfSets = this.gameRound.numOfSets == 1 ? 2 : 1;
+            int setsOf = numOfSets == 1 ? this.gameRound.setsOf + 1 : this.gameRound.setsOf;
+            this.discardPile.EmptyDiscardPile();
+            PlayCards(numOfSets, setsOf);
+        }
+        else
+        {
+            this.gameRound.GameOver();
+        }
     }
 }

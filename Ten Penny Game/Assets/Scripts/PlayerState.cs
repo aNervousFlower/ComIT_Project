@@ -8,12 +8,14 @@ public class PlayerState
     public Text pennyCountText;
     public int pennyCount = 10;
     private PlayerHand playerHand;
+    private PlayerTable playerTable;
 
     public PlayerState(PlayerHand playerHand)
     {
         this.pennyCountText = GameObject.Find("PlayerPenniesCount").GetComponent<Text>();
         this.pennyCountText.text = this.pennyCount.ToString();
         this.playerHand = playerHand;
+        this.playerTable = playerHand.playerTable;
     }
 
     public bool SpendPenny()
@@ -28,5 +30,25 @@ public class PlayerState
         {
             return false;
         }
+    }
+
+    public List<string> GetPlayedTypes()
+    {
+        return this.playerTable.setTypes;
+    }
+
+    public int GetPlayedWilds()
+    {
+        return this.playerTable.GetTotalWilds();
+    }
+
+    public int GetPlayedNaturals()
+    {
+        return this.playerTable.GetTotalNaturals();
+    }
+
+    public void NewRound()
+    {
+        this.playerTable.NewRound();
     }
 }

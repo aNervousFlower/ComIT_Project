@@ -27,6 +27,12 @@ public class DiscardPile : MonoBehaviour
         RefreshTopCard();
         return topCard;
     }
+    
+    public void EmptyDiscardPile()
+    {
+        this.cardList.Clear();
+        RefreshTopCard();
+    }
 
     private void DisplayTopCard()
     {
