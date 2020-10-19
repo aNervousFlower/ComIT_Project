@@ -46,4 +46,9 @@ public class PlayerState
     {
         return this.playerTable.GetTotalNaturals();
     }
+
+    public void NewRound()
+    {
+        this.playerTable.NewRound();
+    }
 }

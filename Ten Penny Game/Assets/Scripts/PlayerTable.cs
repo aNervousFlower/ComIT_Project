@@ -165,4 +165,15 @@ public class PlayerTable : MonoBehaviour
         }
         return totalNaturals;
     }
+
+    public void NewRound()
+    {
+        foreach (GameObject card in this.cardObjectList)
+        {
+            Destroy(card);
+        }
+        this.setTypes.Clear();
+        this.cardSets.Clear();
+        this.objectiveDone = false;
+    }
 }

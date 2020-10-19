@@ -29,10 +29,12 @@ public class GameRound
     public bool CanPlaySelectedCards(List<string> selectedCards, List<string> playedTypes,
         int playedWildCards, int playedNaturalCards)
     {
-        // if the cards haven't been played already and there aren't
+        // if there are no cards selected
+        // or the cards haven't been played already and there aren't
         // enough existing cards to meet the objective of the round
-        if (selectedCards.Count < this.numOfSets * this.setsOf &&
-            playedWildCards + playedNaturalCards == 0)
+        if (selectedCards.Count == 0 ||
+            (selectedCards.Count < this.numOfSets * this.setsOf &&
+            playedWildCards + playedNaturalCards == 0))
         {
             return false;
         }
@@ -102,7 +104,7 @@ public class GameRound
                     }
                     else
                     {
-                        break; 
+                        continue; 
                     }
                 }
                 // if the set is at least as big as the target size
@@ -151,5 +153,10 @@ public class GameRound
             }
         }
         return (qualifyingSets >= this.numOfSets || playedNaturalCards + playedWildCards > 0);
+    }
+
+    public void GameOver()
+    {
+        this.roundInfoText.text = "Game Over";
     }
 }
