@@ -42,7 +42,7 @@ public class PlayerTable : MonoBehaviour
                     this.setTypes.Add(card.Substring(1));
                     this.cardSets.Add(new CardSet(card.Substring(1)));
                 }
-                this.cardSets[this.cardSets.Count - 1].AddCard(card);
+                this.cardSets.Find(x => x.type == card.Substring(1)).AddCard(card);
             }
         }
         // Sorts the sets largest to smallest so that it compares the larger sets
@@ -144,5 +144,25 @@ public class PlayerTable : MonoBehaviour
         {
             Destroy(card);
         }
+    }
+
+    public int GetTotalWilds()
+    {
+        int totalWilds = 0;
+        foreach (CardSet set in this.cardSets)
+        {
+            totalWilds += set.wilds;
+        }
+        return totalWilds;
+    }
+
+    public int GetTotalNaturals()
+    {
+        int totalNaturals = 0;
+        foreach (CardSet set in this.cardSets)
+        {
+            totalNaturals += set.wilds;
+        }
+        return totalNaturals;
     }
 }

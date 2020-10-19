@@ -26,16 +26,25 @@ public class GameRound
             this.numOfSets.ToString() + set + this.setsOf.ToString();
     }
 
-    public bool CanPlaySelectedCards(List<string> selectedCards)
+    public bool CanPlaySelectedCards(List<string> selectedCards, List<string> playedTypes,
+        int playedWildCards, int playedNaturalCards)
     {
-        if (selectedCards.Count < this.numOfSets * this.setsOf)
+        // if the cards haven't been played already and there aren't
+        // enough existing cards to meet the objective of the round
+        if (selectedCards.Count < this.numOfSets * this.setsOf &&
+            playedWildCards + playedNaturalCards == 0)
         {
             return false;
         }
         
         int wildCards = 0;
-        int naturalCards = 0;
+        int naturalCards = playedNaturalCards;
+
+        // creates an object of groupings
+        // each grouping has a key of the card type and contains all the cards of that type
         var g = selectedCards.GroupBy( i => i.Substring(1) );
+        // cardGroups creates a dictionary with a key representing a number of cards
+        // and containing all the types of cards with than number of cards
         Dictionary<int, List<string>> cardGroups = new Dictionary<int, List<string>>();
         int biggestSet = 0;
 
@@ -45,6 +54,11 @@ public class GameRound
             if (group.Key == "JOKER" || group.Key == "2")
             {
                 wildCards += count;
+            }
+            // types that have already been played do not need to be checked, they are free
+            else if (playedTypes.Contains(group.Key))
+            {
+                naturalCards += count;
             }
             else
             {
@@ -74,7 +88,7 @@ public class GameRound
         {
             if (cardGroups.ContainsKey(size))
             {
-                if (qualifyingSets >= this.numOfSets)
+                if (qualifyingSets >= this.numOfSets || playedNaturalCards + playedWildCards > 0)
                 {
                     // if the required number of qualifying sets have been reached
                     // and there are remaining pairs of cards left, make sure there
@@ -136,6 +150,6 @@ public class GameRound
                 }
             }
         }
-        return (qualifyingSets >= this.numOfSets);
+        return (qualifyingSets >= this.numOfSets || playedNaturalCards + playedWildCards > 0);
     }
 }

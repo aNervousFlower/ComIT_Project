@@ -173,6 +173,54 @@ namespace Tests
             Assert.Contains("7", table.setTypes);
             Assert.Contains("9", table.setTypes);
             Assert.AreEqual(table.cardSets.Count, 4);
+            
+            Assert.AreEqual(sets[3].type, "9");
+            Assert.AreEqual(sets[3].GetSize(), 3);
+            
+            // assert that after the round objectives are met,
+            // cards are just added to existing sets if possible
+            Assert.IsTrue(table.objectiveDone);
+            cards = new List<string>()
+                {"S6", "S3", "C3", "1JOKER"};
+            table.SplitIntoSets(cards, round5);
+            sets = table.cardSets;
+            Assert.AreEqual(table.setTypes.Count, 4);
+            Assert.Contains("3", table.setTypes);
+            Assert.Contains("6", table.setTypes);
+            Assert.Contains("7", table.setTypes);
+            Assert.Contains("9", table.setTypes);
+            Assert.AreEqual(table.cardSets.Count, 4);
+
+            Assert.AreEqual(sets[0].type, "7");
+            Assert.AreEqual(sets[0].GetSize(), 8);
+            Assert.AreEqual(sets[0].naturals, 4);
+            Assert.AreEqual(sets[0].wilds, 4);
+            
+            Assert.AreEqual(sets[1].type, "6");
+            Assert.AreEqual(sets[1].GetSize(), 6);
+            Assert.AreEqual(sets[1].naturals, 4);
+            Assert.AreEqual(sets[1].wilds, 2);
+            Assert.Contains("D6", sets[1].cards);
+            Assert.Contains("H6", sets[1].cards);
+            Assert.Contains("C6", sets[1].cards);
+            Assert.Contains("S6", sets[1].cards);
+            Assert.Contains("2JOKER", sets[1].cards);
+            Assert.Contains("1JOKER", sets[1].cards);
+            
+            Assert.AreEqual(sets[2].type, "3");
+            Assert.AreEqual(sets[2].GetSize(), 5);
+            Assert.AreEqual(sets[2].naturals, 4);
+            Assert.AreEqual(sets[2].wilds, 1);
+            Assert.Contains("D3", sets[2].cards);
+            Assert.Contains("H3", sets[2].cards);
+            Assert.Contains("S3", sets[2].cards);
+            Assert.Contains("C3", sets[2].cards);
+            Assert.Contains("D2", sets[2].cards);
+            
+            Assert.AreEqual(sets[3].type, "9");
+            Assert.AreEqual(sets[3].GetSize(), 3);
+            Assert.AreEqual(sets[3].naturals, 3);
+            Assert.AreEqual(sets[3].wilds, 0);
 
             // assert that an error is thrown if too few wildcards are in the selection
             table.setTypes = new List<string>();
