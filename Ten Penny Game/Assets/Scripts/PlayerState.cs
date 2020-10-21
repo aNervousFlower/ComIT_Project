@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,13 +8,16 @@ public class PlayerState
 {
     public Text pennyCountText;
     public Text playerActionsInfoText;
+    public Text playerScoreText;
     public int pennyCount = 10;
     public List<string> playerActions {get;}
-    private PlayerHand playerHand;
-    private PlayerTable playerTable;
+    public int playerScore = 0;
+    public PlayerHand playerHand {get;}
+    public PlayerTable playerTable {get;}
 
     public PlayerState(PlayerHand playerHand)
     {
+        this.playerScoreText = GameObject.Find("PlayerScoreText").GetComponent<Text>();
         this.pennyCountText = GameObject.Find("PlayerPenniesCount").GetComponent<Text>();
         this.pennyCountText.text = this.pennyCount.ToString();
         this.playerHand = playerHand;
@@ -66,6 +70,7 @@ public class PlayerState
 
     public void NewRound()
     {
+        TallyPlayerScore();
         this.playerActions.Clear();
         if (this.pennyCount > 0)
         {
@@ -74,6 +79,46 @@ public class PlayerState
         this.playerActions.Add("Draw");
         this.playerTable.NewRound();
         SetActionText();
+    }
+
+    public void TallyPlayerScore()
+    {
+        int positivePoints = 0;
+        int negativePoints = 0;
+        foreach(string card in this.playerTable.cardList)
+        {
+            positivePoints += GetCardPoints(card);
+        }
+
+        foreach(string card in this.playerHand.cardList)
+        {
+            negativePoints += GetCardPoints(card);
+        }
+        
+        this.playerScore += positivePoints - negativePoints;
+        this.playerScoreText.text = "Score\n" + this.playerScore;
+    }
+
+    public static int GetCardPoints(string cardName)
+    {
+        string cardType = cardName.Substring(1);
+        if (cardType == "JOKER")
+        {
+            return 50;
+        }
+        int value = Int32.Parse(cardType);
+        if (value <= 2)
+        {
+            return 20;
+        }
+        else if (value >= 10)
+        {
+            return 10;
+        }
+        else
+        {
+            return 5;
+        }
     }
 
     public bool Draw()
