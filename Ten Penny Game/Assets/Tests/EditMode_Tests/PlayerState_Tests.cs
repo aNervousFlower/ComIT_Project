@@ -18,6 +18,9 @@ namespace Tests
             GameObject gameOb2 = new GameObject();
             gameOb2.name = "playerActionsInfoText";
             gameOb2.AddComponent<Text>();
+            GameObject gameOb3 = new GameObject();
+            gameOb3.name = "PlayerScoreText";
+            gameOb3.AddComponent<Text>();
             PlayerHand hand = new GameObject().AddComponent<PlayerHand>();
 
             PlayerState state = new PlayerState(hand);
@@ -49,6 +52,9 @@ namespace Tests
             GameObject gameOb2 = new GameObject();
             gameOb2.name = "playerActionsInfoText";
             gameOb2.AddComponent<Text>();
+            GameObject gameOb3 = new GameObject();
+            gameOb3.name = "PlayerScoreText";
+            gameOb3.AddComponent<Text>();
             PlayerHand hand = new GameObject().AddComponent<PlayerHand>();
 
             PlayerState state = new PlayerState(hand);
@@ -131,6 +137,64 @@ namespace Tests
             Assert.AreEqual(1, state.playerActions.Count);
             Assert.Contains("Draw", state.playerActions);
             Assert.AreEqual("Draw", state.playerActionsInfoText.text);
+        }
+
+        [Test]
+        public void GetCardPoints_Test()
+        {
+            Assert.AreEqual(50, PlayerState.GetCardPoints("2JOKER"));
+            Assert.AreEqual(20, PlayerState.GetCardPoints("C1"));
+            Assert.AreEqual(20, PlayerState.GetCardPoints("H2"));
+            Assert.AreEqual(10, PlayerState.GetCardPoints("D13"));
+            Assert.AreEqual(10, PlayerState.GetCardPoints("S10"));
+            Assert.AreEqual(5, PlayerState.GetCardPoints("D9"));
+            Assert.AreEqual(5, PlayerState.GetCardPoints("H3"));
+        }
+
+        [Test]
+        public void TallyPlayerScore_Test()
+        {
+            GameObject gameOb = new GameObject();
+            gameOb.name = "PlayerPenniesCount";
+            gameOb.AddComponent<Text>();
+            GameObject gameOb2 = new GameObject();
+            gameOb2.name = "playerActionsInfoText";
+            gameOb2.AddComponent<Text>();
+            GameObject gameOb3 = new GameObject();
+            gameOb3.name = "PlayerScoreText";
+            gameOb3.AddComponent<Text>();
+            PlayerHand hand = new GameObject().AddComponent<PlayerHand>();
+            PlayerTable table = new GameObject().AddComponent<PlayerTable>();
+            hand.playerTable = table;
+            PlayerState state = new PlayerState(hand);
+
+            // assert score starts at 0
+            Assert.AreEqual(0, state.playerScore);
+
+            // assert score is calculated correctly
+            state.playerTable.cardList.AddRange(new List<string>() {"C2", "D1", "S11", "1JOKER"});
+            hand.cardList.AddRange(new List<string>() { "H5", "D13" });
+            state.TallyPlayerScore();
+            Assert.AreEqual(85, state.playerScore);
+            Assert.AreEqual("Score\n85", state.playerScoreText.text);
+
+            // assert subsequent runs of the method add to the previous score
+            state.playerTable.cardList.Clear();
+            hand.cardList.Clear();
+            state.playerTable.cardList.AddRange(new List<string>() {"D5", "H5", "S5", "D2"});
+            hand.cardList.AddRange(new List<string>() { "H1" });
+            state.TallyPlayerScore();
+            Assert.AreEqual(100, state.playerScore);
+            Assert.AreEqual("Score\n100", state.playerScoreText.text);
+
+            // assert score can be negative
+            state.playerTable.cardList.Clear();
+            hand.cardList.Clear();
+            state.playerTable.cardList.AddRange(new List<string>() {"H4"});
+            hand.cardList.AddRange(new List<string>() { "1JOKER", "2JOKER", "S1"});
+            state.TallyPlayerScore();
+            Assert.AreEqual(-15, state.playerScore);
+            Assert.AreEqual("Score\n-15", state.playerScoreText.text);
         }
     }
 }

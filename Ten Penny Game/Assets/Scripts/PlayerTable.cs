@@ -10,11 +10,13 @@ public class PlayerTable : MonoBehaviour
     public List<string> setTypes;
     public List<CardSet> cardSets;
     public List<GameObject> cardObjectList {get;}
+    public List<string> cardList {get;}
     public bool objectiveDone = false;
     
     public PlayerTable()
     {
         this.setTypes = new List<string>();
+        this.cardList = new List<string>();
         this.cardObjectList = new List<GameObject>();
         this.cardSets = new List<CardSet>();
     }
@@ -130,6 +132,7 @@ public class PlayerTable : MonoBehaviour
                 newCard.tag = "PlayerSets";
                 newCard.GetComponent<Selectable>().faceUp = true;
                 this.cardObjectList.Add(newCard);
+                this.cardList.Add(card);
 
                 xOffset -= 0.2f;
                 zOffset += 0.03f;
@@ -140,6 +143,7 @@ public class PlayerTable : MonoBehaviour
 
     private void DestroySets()
     {
+        this.cardList.Clear();
         foreach (GameObject card in this.cardObjectList)
         {
             Destroy(card);
