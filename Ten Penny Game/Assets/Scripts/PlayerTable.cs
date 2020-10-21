@@ -165,7 +165,7 @@ public class PlayerTable : MonoBehaviour
         int totalNaturals = 0;
         foreach (CardSet set in this.cardSets)
         {
-            totalNaturals += set.wilds;
+            totalNaturals += set.naturals;
         }
         return totalNaturals;
     }
