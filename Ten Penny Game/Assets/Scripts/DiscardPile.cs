@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 
 public class DiscardPile : MonoBehaviour
@@ -64,5 +65,23 @@ public class DiscardPile : MonoBehaviour
         {
             DisplayTopCard();
         }
+    }
+
+    public List<string> RemoveCardsForDeck()
+    {
+        int cardsToRemove = this.cardList.Count - 3;
+        if (cardsToRemove <= 0)
+        {
+            throw new InvalidOperationException("Discard Pile must contain " +
+                "at least 4 cards to add them back to the deck. " +
+                "Pile currently contains " + this.cardList.Count + " cards.");
+        }
+        List<string> cards = new List<string>();
+        for (int index = 0; index < cardsToRemove; index++)
+        {
+            cards.Add(this.cardList[index]);
+        }
+        this.cardList.RemoveRange(0, cardsToRemove);
+        return cards;
     }
 }

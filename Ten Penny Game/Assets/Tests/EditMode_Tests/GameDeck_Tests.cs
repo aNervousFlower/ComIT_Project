@@ -63,7 +63,7 @@ namespace Tests
 
             // confirm that all the same members still exist in the List
             // but in a different order
-            testDeck.Shuffle();
+            GameDeck.Shuffle(testDeck.cardList);
             Assert.AreEqual(testDeck.cardList.Count, 54);
             Assert.AreNotEqual(originalDeck.cardList, testDeck.cardList);
             foreach (string item in originalDeck.cardList)
@@ -86,6 +86,25 @@ namespace Tests
             topCard = gameDeck.DrawCard();
             Assert.AreEqual(gameDeck.cardList.Count, 52);
             Assert.AreEqual(topCard, "S12");
+        }
+
+        [Test]
+        public void ReplenishDeck_Test()
+        {
+            GameDeck gameDeck = new GameDeck(1);
+            gameDeck.cardList.Clear();
+            gameDeck.cardList.AddRange(new List<string>() {"A", "B", "C"} );
+            gameDeck.ReplenishDeck(new List<string>() {"1", "2", "3", "4"} );
+
+            // assert that the initial cards in cardList remain in the same order
+            // at the top of the list after the new cards are added
+            Assert.AreEqual("A", gameDeck.cardList[4]);
+            Assert.AreEqual("B", gameDeck.cardList[5]);
+            Assert.AreEqual("C", gameDeck.cardList[6]);
+
+            // assert that the newCards added to the bottom deck were shuffled
+            bool inOrder = (gameDeck.cardList[0] == "1" && gameDeck.cardList[1] == "2" &&
+                gameDeck.cardList[2] == "3" && gameDeck.cardList[3] == "4");
         }
     }
 }

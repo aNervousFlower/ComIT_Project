@@ -25,17 +25,17 @@ public class GameDeck
     }
 
     // shuffle algorithm found at https://stackoverflow.com/questions/273313/randomize-a-listt
-    public void Shuffle()  
+    public static void Shuffle(List<string> cardList)  
     {
         System.Random rng = new System.Random();
-        int n = this.cardList.Count;  
+        int n = cardList.Count;  
         while (n > 1)
         {  
             int k = rng.Next(n);
             n--;
-            string temp = this.cardList[k];  
-            this.cardList[k] = this.cardList[n];  
-            this.cardList[n] = temp;
+            string temp = cardList[k];  
+            cardList[k] = cardList[n];  
+            cardList[n] = temp;
         }
     }
 
@@ -44,5 +44,16 @@ public class GameDeck
         string topCard = this.cardList.Last<string>();
         this.cardList.RemoveAt(cardList.Count - 1);
         return topCard;
+    }
+
+    public bool DeckLowOnCards()
+    {
+        return this.cardList.Count < 4;
+    }
+
+    public void ReplenishDeck(List<string> newCards)
+    {
+        Shuffle(newCards);
+        this.cardList.InsertRange(0, newCards);
     }
 }

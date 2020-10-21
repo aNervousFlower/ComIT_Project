@@ -37,9 +37,9 @@ public class TenPenny : MonoBehaviour
         this.gameRound = new GameRound(this.roundNum++, numOfSets, setsOf);
         this.deck = new GameDeck(2);
 
-        this.deck.Shuffle();
+        GameDeck.Shuffle(this.deck.cardList);
         DealPlayerHand();
-        DealDiscordPile();
+        DealDiscardPile();
     }
 
     private void DealPlayerHand()
@@ -51,7 +51,7 @@ public class TenPenny : MonoBehaviour
         SortPlayerHand();
     }
 
-    private void DealDiscordPile()
+    private void DealDiscardPile()
     {
         this.discardPile.AddCard(this.deck.DrawCard());
     }
@@ -68,6 +68,7 @@ public class TenPenny : MonoBehaviour
         {
             this.playerHand.AddCard(this.deck.DrawCard());
             this.playerHand.RefreshHand();
+            CheckAndReplenishDeck();
         }
     }
 
@@ -84,7 +85,8 @@ public class TenPenny : MonoBehaviour
             else if (this.singlePlayer)
             {
                 // insert sleep here
-                DealDiscordPile();
+                DealDiscardPile();
+                CheckAndReplenishDeck();
             }
         }
     }
@@ -100,6 +102,7 @@ public class TenPenny : MonoBehaviour
                 {
                     this.playerHand.AddCard(this.deck.DrawCard());
                 }
+                CheckAndReplenishDeck();
                 this.playerHand.RefreshHand();
             } 
         }
@@ -156,6 +159,15 @@ public class TenPenny : MonoBehaviour
         else
         {
             this.gameRound.GameOver();
+        }
+    }
+
+    public void CheckAndReplenishDeck()
+    {
+        if (this.deck.DeckLowOnCards())
+        {
+            List<string> cards = this.discardPile.RemoveCardsForDeck();
+            this.deck.ReplenishDeck(cards);
         }
     }
 }
