@@ -9,6 +9,7 @@ public class TenPenny : MonoBehaviour
 {
     public Sprite[] cardFaces;
     private PlayerHand playerHand;
+    private OpponentHand opponentHand;
     private GameDeck deck;
     private DiscardPile discardPile;
     private PlayerState playerState;
@@ -16,17 +17,17 @@ public class TenPenny : MonoBehaviour
     private int roundNum = 1;
     private Button playCardsButton;
     private bool singlePlayer = true;
-    // Start is called before the first frame update
+
     void Start()
     {
         this.playCardsButton = GameObject.Find("PlayCardsButton").GetComponent<Button>();
         this.playerHand = FindObjectOfType<PlayerHand>();
+        this.opponentHand = FindObjectOfType<OpponentHand>();
         this.discardPile = FindObjectOfType<DiscardPile>();
         this.playerState = new PlayerState(this.playerHand);
         PlayCards(1, 3);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -38,17 +39,19 @@ public class TenPenny : MonoBehaviour
         this.deck = new GameDeck(2);
 
         GameDeck.Shuffle(this.deck.cardList);
-        DealPlayerHand();
+        DealAllHands();
         DealDiscardPile();
     }
 
-    private void DealPlayerHand()
+    private void DealAllHands()
     {
         for (int i = 0; i < 11; i++)
         {
             this.playerHand.AddCard(this.deck.DrawCard());
+            this.opponentHand.AddCard(this.deck.DrawCard());
         }
         SortPlayerHand();
+        this.opponentHand.RefreshHand();
     }
 
     private void DealDiscardPile()
@@ -139,7 +142,7 @@ public class TenPenny : MonoBehaviour
         {
             this.playerHand.PlaySelectedCards(this.gameRound);
             this.playCardsButton.interactable = false;
-            if (this.playerHand.cardList.Count == 0)
+            if (this.playerHand.cardList.Count == 0 || this.opponentHand.cardList.Count == 0)
             {
                 StartNewRound();
             }            
@@ -149,6 +152,7 @@ public class TenPenny : MonoBehaviour
     public void StartNewRound()
     {
         this.playerState.NewRound();
+        this.opponentHand.NewRound();
         if (this.roundNum <= 8)
         {
             int numOfSets = this.gameRound.numOfSets == 1 ? 2 : 1;

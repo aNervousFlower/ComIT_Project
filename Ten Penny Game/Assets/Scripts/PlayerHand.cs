@@ -72,6 +72,14 @@ public class PlayerHand : MonoBehaviour
         RefreshHand();
     }
 
+    public void NewRound()
+    {
+        DestroyHand();
+        this.cardList.Clear();
+        this.cardObjectList.Clear();
+        this.selectedCards.Clear();
+    }
+
     public void SortCards()
     {
         this.cardList.Sort(CompareCards);
