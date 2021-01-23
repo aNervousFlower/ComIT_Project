@@ -54,6 +54,7 @@ public class OpponentHand : MonoBehaviour
 
     public void RefreshHand()
     {
+        this.cardList.Sort(PlayerHand.CompareCards);
         DestroyHand();
         DisplayHand();
     }
