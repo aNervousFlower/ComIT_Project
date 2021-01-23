@@ -75,6 +75,13 @@ public class TenPenny : MonoBehaviour
         }
     }
 
+    private void DrawCardToOpponentHand()
+    {
+        this.opponentHand.AddCard(this.deck.DrawCard());
+        this.opponentHand.RefreshHand();
+        CheckAndReplenishDeck();
+    }
+
     public void DiscardCardFromPlayerHand(string card)
     {
         if (this.playerState.Discard())
@@ -90,6 +97,7 @@ public class TenPenny : MonoBehaviour
                 // insert sleep here
                 DealDiscardPile();
                 CheckAndReplenishDeck();
+                DrawCardToOpponentHand();
             }
         }
     }

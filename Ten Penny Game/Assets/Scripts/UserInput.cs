@@ -81,7 +81,7 @@ public class UserInput : MonoBehaviour
         if (this.timer < doubleClickTime && this.clickCount == 2 &&
             this.mouseUpHit.collider.ToString() == this.lastMouseUpHit.collider.ToString())
         {
-            print("Double-Click");
+            // print("Double-Click");
             return true;
         }
         else
@@ -100,14 +100,14 @@ public class UserInput : MonoBehaviour
 
     void Deck()
     {
-        print("clicked on Deck");
+        // print("clicked on Deck");
 
         this.tenPenny.DrawCardToPlayerHand();
     }
 
     void PlayerHand()
     {
-        print("clicked on PlayerHand");
+        // print("clicked on PlayerHand");
 
         if (IsDoubleClick())
         {
@@ -121,7 +121,7 @@ public class UserInput : MonoBehaviour
 
     void DiscardPile()
     {
-        print("clicked on DiscardPile");
+        // print("clicked on DiscardPile");
 
         if (IsDoubleClick())
         {
@@ -131,9 +131,9 @@ public class UserInput : MonoBehaviour
 
     private void DragClick()
     {
-        print("Dragging Click");
-        print("Down: " + this.mouseDownHit.collider.ToString());
-        print("Up: " + this.mouseUpHit.collider.ToString());
+        // print("Dragging Click");
+        // print("Down: " + this.mouseDownHit.collider.ToString());
+        // print("Up: " + this.mouseUpHit.collider.ToString());
 
         if (this.mouseDownHit.collider.CompareTag("PlayerHand") &&
             this.mouseUpHit.collider.CompareTag("DiscardPile"))

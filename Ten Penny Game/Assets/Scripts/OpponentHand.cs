@@ -60,6 +60,7 @@ public class OpponentHand : MonoBehaviour
     
     public void AddCard(string card)
     {
+print("opponent draws " + card);
         this.cardList.Add(card);
     }
 
