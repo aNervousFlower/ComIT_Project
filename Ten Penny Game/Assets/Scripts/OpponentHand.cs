@@ -65,10 +65,50 @@ print("opponent draws " + card);
         this.cardList.Add(card);
     }
 
+    public string DiscardCard()
+    {
+        List<string> setTypes = new List<string>();
+        List<CardSet> cardSets = new List<CardSet>();
+        foreach (string card in this.cardList)
+        {
+            if (card.Substring(1) == "2" || card.Substring(1) == "JOKER")
+            {
+                continue;
+            }
+            else
+            {
+                if (!setTypes.Contains(card.Substring(1)))
+                {
+                    setTypes.Add(card.Substring(1));
+                    cardSets.Add(new CardSet(card.Substring(1)));
+                }
+                cardSets.Find(x => x.type == card.Substring(1)).AddCard(card);
+            }
+        }
+        cardSets.Sort(CompareSetsForDiscard);
+
+        string cardToDiscard = cardSets[0].cards[0];
+
+print("opponent discards " + cardToDiscard);
+        RemoveCard(cardToDiscard);
+        return cardToDiscard;
+    }
+
+    public static int CompareSetsForDiscard(CardSet s1, CardSet s2)
+    {
+        if (s1.GetSize() != s2.GetSize())
+        {
+            return s1.GetSize() - s2.GetSize();
+        }
+        else
+        {
+            return PlayerState.GetCardPoints(s1.cards[0]) - PlayerState.GetCardPoints(s2.cards[0]);
+        }
+    }
+
     public void RemoveCard(string card)
     {
         this.cardList.Remove(card);
-        RefreshHand();
     }
 
     public void NewRound()

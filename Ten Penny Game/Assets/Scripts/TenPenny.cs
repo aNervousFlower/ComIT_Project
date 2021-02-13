@@ -16,7 +16,7 @@ public class TenPenny : MonoBehaviour
     private GameRound gameRound;
     private int roundNum = 1;
     private Button playCardsButton;
-    private bool singlePlayer = true;
+    private bool singlePlayer = false;
 
     void Start()
     {
@@ -75,13 +75,6 @@ public class TenPenny : MonoBehaviour
         }
     }
 
-    private void DrawCardToOpponentHand()
-    {
-        this.opponentHand.AddCard(this.deck.DrawCard());
-        this.opponentHand.RefreshHand();
-        CheckAndReplenishDeck();
-    }
-
     public void DiscardCardFromPlayerHand(string card)
     {
         if (this.playerState.Discard())
@@ -94,10 +87,12 @@ public class TenPenny : MonoBehaviour
             }
             else if (this.singlePlayer)
             {
-                // insert sleep here
                 DealDiscardPile();
                 CheckAndReplenishDeck();
-                DrawCardToOpponentHand();
+            }
+            else
+            {
+                OpponentTurn();
             }
         }
     }
@@ -172,6 +167,31 @@ public class TenPenny : MonoBehaviour
         {
             this.gameRound.GameOver();
         }
+    }
+
+    private void OpponentTurn()
+    {
+        DrawCardToOpponentHand();
+        DiscardCardFromOpponentHand();
+        if (this.opponentHand.cardList.Count == 0)
+        {
+            StartNewRound();
+        }
+        else
+        {
+            this.opponentHand.RefreshHand();
+        }
+    }
+
+    private void DrawCardToOpponentHand()
+    {
+        this.opponentHand.AddCard(this.deck.DrawCard());
+        CheckAndReplenishDeck();
+    }
+
+    private void DiscardCardFromOpponentHand()
+    {
+        this.discardPile.AddCard(this.opponentHand.DiscardCard());
     }
 
     public void CheckAndReplenishDeck()
