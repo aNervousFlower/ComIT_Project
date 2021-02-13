@@ -7,10 +7,11 @@ public class OpponentHand : MonoBehaviour
     public List<string> cardList {get;}
     public List<GameObject> cardObjectList {get;}
     public GameObject cardPrefab;
-    public PlayerTable opponentTable;
+    public OpponentTable opponentTable;
+    
     void Start()
     {
-        
+        this.opponentTable = FindObjectOfType<OpponentTable>();
     }
     
     public OpponentHand()
