@@ -172,6 +172,7 @@ public class TenPenny : MonoBehaviour
     private void OpponentTurn()
     {
         DrawCardToOpponentHand();
+        PlayCardsFromOpponentHand();
         DiscardCardFromOpponentHand();
         if (this.opponentHand.cardList.Count == 0)
         {
@@ -189,9 +190,17 @@ public class TenPenny : MonoBehaviour
         CheckAndReplenishDeck();
     }
 
+    private void PlayCardsFromOpponentHand()
+    {
+        this.opponentHand.PlayCards(this.gameRound);
+    }
+
     private void DiscardCardFromOpponentHand()
     {
-        this.discardPile.AddCard(this.opponentHand.DiscardCard());
+        if (this.opponentHand.cardList.Count > 0)
+        {
+            this.discardPile.AddCard(this.opponentHand.DiscardCard());
+        }
     }
 
     public void CheckAndReplenishDeck()

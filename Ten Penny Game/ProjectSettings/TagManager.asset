@@ -9,6 +9,7 @@ TagManager:
   - DiscardPile
   - PlayerSets
   - OpponentHand
+  - OpponentSets
   layers:
   - Default
   - TransparentFX

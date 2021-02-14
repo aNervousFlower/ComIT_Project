@@ -112,6 +112,16 @@ print("opponent discards " + cardToDiscard);
         this.cardList.Remove(card);
     }
 
+    public void PlayCards(GameRound round)
+    {
+        List<string> playedCards = this.opponentTable.PlayCards(this.cardList, round);
+        foreach (string card in playedCards)
+        {
+            this.cardList.Remove(card);
+        }
+        RefreshHand();
+    }
+
     public void NewRound()
     {
         DestroyHand();
