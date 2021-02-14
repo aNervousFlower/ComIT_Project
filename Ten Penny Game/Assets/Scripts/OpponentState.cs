@@ -14,4 +14,10 @@ public class OpponentState
         this.opponentHand = opponentHand;
         this.opponentTable = opponentHand.opponentTable;
     }
+
+    public void NewRound()
+    {
+        this.opponentHand.NewRound();
+        this.opponentTable.NewRound();
+    }
 }

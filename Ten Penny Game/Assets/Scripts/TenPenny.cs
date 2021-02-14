@@ -13,6 +13,7 @@ public class TenPenny : MonoBehaviour
     private GameDeck deck;
     private DiscardPile discardPile;
     private PlayerState playerState;
+    private OpponentState opponentState;
     private GameRound gameRound;
     private int roundNum = 1;
     private Button playCardsButton;
@@ -25,6 +26,7 @@ public class TenPenny : MonoBehaviour
         this.opponentHand = FindObjectOfType<OpponentHand>();
         this.discardPile = FindObjectOfType<DiscardPile>();
         this.playerState = new PlayerState(this.playerHand);
+        this.opponentState = new OpponentState(this.opponentHand);
         PlayCards(1, 3);
     }
 
@@ -155,7 +157,7 @@ public class TenPenny : MonoBehaviour
     public void StartNewRound()
     {
         this.playerState.NewRound();
-        this.opponentHand.NewRound();
+        this.opponentState.NewRound();
         if (this.roundNum <= 8)
         {
             int numOfSets = this.gameRound.numOfSets == 1 ? 2 : 1;

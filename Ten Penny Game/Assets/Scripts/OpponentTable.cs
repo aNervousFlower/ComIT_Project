@@ -181,4 +181,15 @@ public class OpponentTable : MonoBehaviour
             Destroy(card);
         }
     }
+
+    public void NewRound()
+    {
+        foreach (GameObject card in this.cardObjectList)
+        {
+            Destroy(card);
+        }
+        this.setTypes.Clear();
+        this.cardSets.Clear();
+        this.objectiveDone = false;
+    }
 }
