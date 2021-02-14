@@ -136,7 +136,7 @@ public class OpponentTable : MonoBehaviour
             {
                 if (++index == setsList.Count)
                 {
-                    throw new InvalidOperationException("Invalid Card Selection: too many wildcards");
+                    return;
                 }
             }
         }

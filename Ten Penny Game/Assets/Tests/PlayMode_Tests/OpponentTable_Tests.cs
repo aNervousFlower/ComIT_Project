@@ -132,6 +132,32 @@ namespace Tests
             Assert.IsEmpty(table.setTypes);
             Assert.IsEmpty(table.cardSets);
             Assert.IsFalse(table.objectiveDone);
+
+            // assert that if there are too many wild cards for the possible
+            // sets, no error is thrown and the extra wild cards are left in hand
+            table.setTypes = new List<string>();
+            table.cardSets = new List<CardSet>();
+            table.objectiveDone = false;
+            cards = new List<string>()
+                {"H2", "1JOKER", "D2", "C2",
+                "H7", "D7", "C7"};
+            table.SplitIntoSets(cards, round5);
+            sets = table.cardSets;
+            Assert.AreEqual(1, table.setTypes.Count);
+            Assert.Contains("7", table.setTypes);
+
+            Assert.AreEqual(1, sets.Count);
+            Assert.AreEqual("7", sets[0].type);
+            Assert.AreEqual(6, sets[0].GetSize());
+            Assert.AreEqual(3, sets[0].naturals);
+            Assert.AreEqual(3, sets[0].wilds);
+            Assert.Contains("H7", sets[0].cards);
+            Assert.Contains("D7", sets[0].cards);
+            Assert.Contains("C7", sets[0].cards);
+            Assert.Contains("H2", sets[0].cards);
+            Assert.Contains("1JOKER", sets[0].cards);
+            Assert.Contains("D2", sets[0].cards);
+            Assert.IsFalse(sets[0].cards.Contains("C2"));
         }
     }
 }
