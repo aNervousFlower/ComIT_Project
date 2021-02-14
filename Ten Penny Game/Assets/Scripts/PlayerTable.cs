@@ -24,6 +24,7 @@ public class PlayerTable : MonoBehaviour
     public void PlayCards(List<string> selectedCards, GameRound round)
     {
         SplitIntoSets(selectedCards, round);
+        round.UpdatePlayedTypes(this.setTypes);
         DestroySets();
         DisplaySets();
     }

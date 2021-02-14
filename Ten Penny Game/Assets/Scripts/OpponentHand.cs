@@ -119,7 +119,6 @@ print("opponent discards " + cardToDiscard);
         {
             this.cardList.Remove(card);
         }
-        RefreshHand();
     }
 
     public void NewRound()

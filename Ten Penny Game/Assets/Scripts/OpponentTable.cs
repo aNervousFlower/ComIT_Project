@@ -36,6 +36,8 @@ public class OpponentTable : MonoBehaviour
         {
             currentCardList.Remove(card);
         }
+
+        round.UpdatePlayedTypes(this.setTypes);
         return currentCardList;
     }
 

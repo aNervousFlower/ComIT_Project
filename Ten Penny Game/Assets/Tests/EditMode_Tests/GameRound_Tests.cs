@@ -105,43 +105,43 @@ namespace Tests
 
             // Round 1 requires 1 set of 3
             List<string> selectedCards = new List<string>();
-            List<string> playedTypes = new List<string>();
+            List<string> types = new List<string>();
             GameRound round1 = new GameRound(1, 1, 3);
 
             // no selected cards should return false so that button stays uninteractable
-            playedTypes.Add("4");
-            Assert.IsFalse(round1.CanPlaySelectedCards(selectedCards, playedTypes, 1, 2));
+            types.Add("4");
+            Assert.IsFalse(round1.CanPlaySelectedCards(selectedCards, types, 1, 2));
 
             // already played 2 fours and 1 deuce, try selecting another four = true
             selectedCards.Add("H4");
-            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, playedTypes, 1, 2));
+            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, types, 1, 2));
 
             // already played 2 fours and 1 deuce, try selecting another deuce = true
             selectedCards.Clear();
             selectedCards.Add("H2");
-            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, playedTypes, 1, 2));
+            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, types, 1, 2));
 
             // already played 2 fours and 1 deuce, try selecting another deuce and a five = false
             selectedCards.Add("C5");
-            Assert.IsFalse(round1.CanPlaySelectedCards(selectedCards, playedTypes, 1, 2));
+            Assert.IsFalse(round1.CanPlaySelectedCards(selectedCards, types, 1, 2));
 
             // already played 2 fours and 1 deuce, try selecting another deuce and 2 fives = true
             selectedCards.Add("D5");
-            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, playedTypes, 1, 2));
+            Assert.IsTrue(round1.CanPlaySelectedCards(selectedCards, types, 1, 2));
 
             // Round 2 requires 2 set of 3
             selectedCards = new List<string>();
-            playedTypes = new List<string>();
+            types = new List<string>();
             GameRound round2 = new GameRound(2, 2, 3);
 
             // already played 3 Kings and 4 sevens, try selecting 3 nines = true
             selectedCards.AddRange(new List<string>() {"D9", "S9", "H9"});
-            playedTypes.AddRange(new List<string>() {"13", "7"});
-            Assert.IsTrue(round2.CanPlaySelectedCards(selectedCards, playedTypes, 0, 7));
+            types.AddRange(new List<string>() {"13", "7"});
+            Assert.IsTrue(round2.CanPlaySelectedCards(selectedCards, types, 0, 7));
 
             // Round 8 requires 2 set of 6
             selectedCards = new List<string>();
-            playedTypes = new List<string>();
+            types = new List<string>();
             GameRound round8 = new GameRound(2, 2, 3);
 
             // already played 2 sets of 6, try selecting 4 tens, 3 fives, and 2 threes = false
@@ -149,8 +149,32 @@ namespace Tests
                 {"C10", "C10", "H10", "S10",
                 "H5", "C5", "D5",
                 "D3", "H3"});
-            playedTypes.AddRange(new List<string>() {"12", "8"});
-            Assert.IsFalse(round8.CanPlaySelectedCards(selectedCards, playedTypes, 3, 9));
+            types.AddRange(new List<string>() {"12", "8"});
+            Assert.IsFalse(round8.CanPlaySelectedCards(selectedCards, types, 3, 9));
+        }
+
+        [Test]
+        public void UpdatePlayedTypes_Test()
+        {
+            GameObject gameOb = new GameObject();
+            gameOb.name = "RoundInfo";
+            gameOb.AddComponent<Text>();
+
+            GameRound round1 = new GameRound(1, 1, 3);
+            Assert.IsEmpty(round1.playedTypes);
+
+            List<string> types = new List<string> {"3", "7"};
+            round1.UpdatePlayedTypes(types);
+            Assert.AreEqual(2, round1.playedTypes.Count);
+            Assert.Contains("3", round1.playedTypes);
+            Assert.Contains("7", round1.playedTypes);
+
+            types = new List<string> {"3", "5", "7"};
+            round1.UpdatePlayedTypes(types);
+            Assert.AreEqual(3, round1.playedTypes.Count);
+            Assert.Contains("3", round1.playedTypes);
+            Assert.Contains("7", round1.playedTypes);
+            Assert.Contains("5", round1.playedTypes);
         }
     }
 }
