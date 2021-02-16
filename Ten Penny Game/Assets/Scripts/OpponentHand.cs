@@ -37,7 +37,7 @@ public class OpponentHand : MonoBehaviour
             newCard.name = card;
             newCard.tag = "OpponentHand";
 // keep faceUp true during testing, switch to false for production
-            newCard.GetComponent<Selectable>().faceUp = true;
+            newCard.GetComponent<Selectable>().faceUp = false;
             this.cardObjectList.Add(newCard);
 
             xOffset -= 0.2f;

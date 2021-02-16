@@ -39,7 +39,7 @@ public class GameRound
         }
     }
 
-    public bool CanPlaySelectedCards(List<string> selectedCards, List<string> types,
+    public bool CanPlaySelectedCards(List<string> selectedCards,
         int playedWildCards, int playedNaturalCards)
     {
         // if there are no cards selected
@@ -71,7 +71,7 @@ public class GameRound
                 wildCards += count;
             }
             // types that have already been played do not need to be checked, they are free
-            else if (types.Contains(group.Key))
+            else if (this.playedTypes.Contains(group.Key))
             {
                 naturalCards += count;
             }

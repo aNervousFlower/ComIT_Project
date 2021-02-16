@@ -60,7 +60,11 @@ public class OpponentTable : MonoBehaviour
             }
         }
         // Disregard single natural cards
-        this.cardSets.RemoveAll((set) => set.GetSize() == 1);
+        this.cardSets.RemoveAll((set) => set.GetSize() == 1 && !round.playedTypes.Contains(set.type));
+        if (this.cardSets.Count == 0)
+        {
+            return;
+        }
 
         // Sorts the sets largest to smallest so that it compares the larger sets
         // to the round requirements first. This ensures the most efficient distribution
@@ -95,7 +99,7 @@ public class OpponentTable : MonoBehaviour
         DistributeRemainingWildcards(this.cardSets, wildcards);
 
         // Disregard remaining natural pairs
-        this.cardSets.RemoveAll((set) => set.GetSize() == 2);
+        this.cardSets.RemoveAll((set) => set.GetSize() == 2 && !round.playedTypes.Contains(set.type));
 
         foreach (CardSet set in this.cardSets)
         {

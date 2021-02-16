@@ -131,8 +131,8 @@ public class TenPenny : MonoBehaviour
         // colour the selected cards yellow if they are NOT a valid selection
         // to play, and cyan if they ARE a valid selection to play
         bool playable = this.gameRound.CanPlaySelectedCards(
-            this.playerHand.GetSelectedCardsList(), this.playerState.GetPlayedTypes(),
-            this.playerState.GetPlayedWilds(), this.playerState.GetPlayedNaturals());
+            this.playerHand.GetSelectedCardsList(), this.playerState.GetPlayedWilds(),
+            this.playerState.GetPlayedNaturals());
         this.playCardsButton.interactable = playable;
         Color colour = (playable) ? Color.cyan : Color.yellow;
         foreach (GameObject selectedCard in this.playerHand.selectedCards)

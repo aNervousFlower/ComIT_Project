@@ -63,7 +63,7 @@ public class PlayerTable : MonoBehaviour
                 qualifyingSets++;
             }
             // Use wildcards to top up any sets of 2 to ensure that all sets are at least 3 cards
-            else if (set.GetSize() <= 2)
+            else if (set.GetSize() <= 2 && !round.playedTypes.Contains(set.type))
             {
                 AddWildcardsToSet(set, wildcards, 3);
             }
