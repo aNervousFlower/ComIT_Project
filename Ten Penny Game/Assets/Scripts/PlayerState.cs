@@ -77,6 +77,7 @@ public class PlayerState
             this.playerActions.Add("Buy");
         }
         this.playerActions.Add("Draw");
+        this.playerHand.NewRound();
         this.playerTable.NewRound();
         SetActionText();
     }

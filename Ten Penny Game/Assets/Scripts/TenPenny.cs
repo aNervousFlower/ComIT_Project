@@ -9,24 +9,27 @@ public class TenPenny : MonoBehaviour
 {
     public Sprite[] cardFaces;
     private PlayerHand playerHand;
+    private OpponentHand opponentHand;
     private GameDeck deck;
     private DiscardPile discardPile;
     private PlayerState playerState;
+    private OpponentState opponentState;
     private GameRound gameRound;
     private int roundNum = 1;
     private Button playCardsButton;
-    private bool singlePlayer = true;
-    // Start is called before the first frame update
+    private bool singlePlayer = false;
+
     void Start()
     {
         this.playCardsButton = GameObject.Find("PlayCardsButton").GetComponent<Button>();
         this.playerHand = FindObjectOfType<PlayerHand>();
+        this.opponentHand = FindObjectOfType<OpponentHand>();
         this.discardPile = FindObjectOfType<DiscardPile>();
         this.playerState = new PlayerState(this.playerHand);
+        this.opponentState = new OpponentState(this.opponentHand);
         PlayCards(1, 3);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -38,17 +41,19 @@ public class TenPenny : MonoBehaviour
         this.deck = new GameDeck(2);
 
         GameDeck.Shuffle(this.deck.cardList);
-        DealPlayerHand();
+        DealAllHands();
         DealDiscardPile();
     }
 
-    private void DealPlayerHand()
+    private void DealAllHands()
     {
         for (int i = 0; i < 11; i++)
         {
             this.playerHand.AddCard(this.deck.DrawCard());
+            this.opponentHand.AddCard(this.deck.DrawCard());
         }
         SortPlayerHand();
+        this.opponentHand.RefreshHand();
     }
 
     private void DealDiscardPile()
@@ -84,9 +89,12 @@ public class TenPenny : MonoBehaviour
             }
             else if (this.singlePlayer)
             {
-                // insert sleep here
                 DealDiscardPile();
                 CheckAndReplenishDeck();
+            }
+            else
+            {
+                OpponentTurn();
             }
         }
     }
@@ -123,8 +131,8 @@ public class TenPenny : MonoBehaviour
         // colour the selected cards yellow if they are NOT a valid selection
         // to play, and cyan if they ARE a valid selection to play
         bool playable = this.gameRound.CanPlaySelectedCards(
-            this.playerHand.GetSelectedCardsList(), this.playerState.GetPlayedTypes(),
-            this.playerState.GetPlayedWilds(), this.playerState.GetPlayedNaturals());
+            this.playerHand.GetSelectedCardsList(), this.playerState.GetPlayedWilds(),
+            this.playerState.GetPlayedNaturals());
         this.playCardsButton.interactable = playable;
         Color colour = (playable) ? Color.cyan : Color.yellow;
         foreach (GameObject selectedCard in this.playerHand.selectedCards)
@@ -139,7 +147,7 @@ public class TenPenny : MonoBehaviour
         {
             this.playerHand.PlaySelectedCards(this.gameRound);
             this.playCardsButton.interactable = false;
-            if (this.playerHand.cardList.Count == 0)
+            if (this.playerHand.cardList.Count == 0 || this.opponentHand.cardList.Count == 0)
             {
                 StartNewRound();
             }            
@@ -149,6 +157,7 @@ public class TenPenny : MonoBehaviour
     public void StartNewRound()
     {
         this.playerState.NewRound();
+        this.opponentState.NewRound();
         if (this.roundNum <= 8)
         {
             int numOfSets = this.gameRound.numOfSets == 1 ? 2 : 1;
@@ -159,6 +168,40 @@ public class TenPenny : MonoBehaviour
         else
         {
             this.gameRound.GameOver();
+        }
+    }
+
+    private void OpponentTurn()
+    {
+        DrawCardToOpponentHand();
+        PlayCardsFromOpponentHand();
+        DiscardCardFromOpponentHand();
+        if (this.opponentHand.cardList.Count == 0)
+        {
+            StartNewRound();
+        }
+        else
+        {
+            this.opponentHand.RefreshHand();
+        }
+    }
+
+    private void DrawCardToOpponentHand()
+    {
+        this.opponentHand.AddCard(this.deck.DrawCard());
+        CheckAndReplenishDeck();
+    }
+
+    private void PlayCardsFromOpponentHand()
+    {
+        this.opponentHand.PlayCards(this.gameRound);
+    }
+
+    private void DiscardCardFromOpponentHand()
+    {
+        if (this.opponentHand.cardList.Count > 0)
+        {
+            this.discardPile.AddCard(this.opponentHand.DiscardCard());
         }
     }
 
