@@ -8,6 +8,8 @@ TagManager:
   - Deck
   - DiscardPile
   - PlayerSets
+  - OpponentHand
+  - OpponentSets
   layers:
   - Default
   - TransparentFX

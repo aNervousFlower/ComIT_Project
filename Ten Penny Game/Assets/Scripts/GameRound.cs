@@ -10,11 +10,13 @@ public class GameRound
     public Text roundInfoText;
     public int numOfSets {get;}
     public int setsOf {get;}
+    public List<string> playedTypes {get;}
     
     public GameRound(int round, int numOfSets, int setsOf)
     {
         this.numOfSets = numOfSets;
         this.setsOf = setsOf;
+        this.playedTypes = new List<string>();
         this.roundInfoText = GameObject.Find("RoundInfo").GetComponent<Text>();
         SetText(round);
     }
@@ -26,7 +28,18 @@ public class GameRound
             this.numOfSets.ToString() + set + this.setsOf.ToString();
     }
 
-    public bool CanPlaySelectedCards(List<string> selectedCards, List<string> playedTypes,
+    public void UpdatePlayedTypes(List<string> types)
+    {
+        foreach (string t in types)
+        {
+            if (!this.playedTypes.Contains(t))
+            {
+                this.playedTypes.Add(t);
+            }
+        }
+    }
+
+    public bool CanPlaySelectedCards(List<string> selectedCards,
         int playedWildCards, int playedNaturalCards)
     {
         // if there are no cards selected
@@ -58,7 +71,7 @@ public class GameRound
                 wildCards += count;
             }
             // types that have already been played do not need to be checked, they are free
-            else if (playedTypes.Contains(group.Key))
+            else if (this.playedTypes.Contains(group.Key))
             {
                 naturalCards += count;
             }

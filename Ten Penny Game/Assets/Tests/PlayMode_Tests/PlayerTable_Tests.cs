@@ -255,10 +255,11 @@ namespace Tests
             e = Assert.Throws<InvalidOperationException>(
                 () => table.SplitIntoSets(cards, round5));
             Assert.AreEqual(e.Message, "Invalied Card Selection: too few natural cards: D2, S3");
-
+            
             // assert that for 2 sets of 4, wilds are distributed properly
             // when each set contains 3 natural and 1 wild
             GameRound round4 = new GameRound(4, 2, 4);
+            round4.UpdatePlayedTypes(new List<string>() {"11"});
             table.setTypes = new List<string>();
             table.cardSets = new List<CardSet>();
             table.objectiveDone = false;
@@ -267,6 +268,7 @@ namespace Tests
                 "D3", "H3", "C3",
                 "H7", "D7", "C7"};
             table.SplitIntoSets(cards, round4);
+            round4.UpdatePlayedTypes(new List<string>() {"3", "7"});
             sets = table.cardSets;
             Assert.AreEqual(table.setTypes.Count, 2);
             Assert.Contains("3", table.setTypes);
@@ -290,6 +292,41 @@ namespace Tests
             Assert.Contains("D7", sets[1].cards);
             Assert.Contains("C7", sets[1].cards);
             Assert.Contains("1JOKER", sets[1].cards);
+
+            // assert that if objective is already met, player can play a single card that
+            // has been played by anyone at the table
+            cards = new List<string>() {"H11"};
+            table.SplitIntoSets(cards, round4);
+            sets = table.cardSets;
+            Assert.AreEqual(table.setTypes.Count, 3);
+            Assert.Contains("3", table.setTypes);
+            Assert.Contains("7", table.setTypes);
+            Assert.Contains("11", table.setTypes);
+            Assert.AreEqual(table.cardSets.Count, 3);
+            
+            Assert.AreEqual(sets[0].type, "3");
+            Assert.AreEqual(sets[0].GetSize(), 4);
+            Assert.AreEqual(sets[0].naturals, 3);
+            Assert.AreEqual(sets[0].wilds, 1);
+            Assert.Contains("D3", sets[0].cards);
+            Assert.Contains("H3", sets[0].cards);
+            Assert.Contains("C3", sets[0].cards);
+            Assert.Contains("H2", sets[0].cards);
+            
+            Assert.AreEqual(sets[1].type, "7");
+            Assert.AreEqual(sets[1].GetSize(), 4);
+            Assert.AreEqual(sets[1].naturals, 3);
+            Assert.AreEqual(sets[1].wilds, 1);
+            Assert.Contains("H7", sets[1].cards);
+            Assert.Contains("D7", sets[1].cards);
+            Assert.Contains("C7", sets[1].cards);
+            Assert.Contains("1JOKER", sets[1].cards);
+            
+            Assert.AreEqual(sets[2].type, "11");
+            Assert.AreEqual(sets[2].GetSize(), 1);
+            Assert.AreEqual(sets[2].naturals, 1);
+            Assert.AreEqual(sets[2].wilds, 0);
+            Assert.Contains("H11", sets[2].cards);
         }
     }
 }

@@ -72,12 +72,20 @@ public class PlayerHand : MonoBehaviour
         RefreshHand();
     }
 
+    public void NewRound()
+    {
+        DestroyHand();
+        this.cardList.Clear();
+        this.cardObjectList.Clear();
+        this.selectedCards.Clear();
+    }
+
     public void SortCards()
     {
         this.cardList.Sort(CompareCards);
     }
 
-    private static int CompareCards(string c1, string c2)
+    public static int CompareCards(string c1, string c2)
     {
         // returns 0 if the cards are equal
         // returns positive int if c1 sorts BEFORE c2
