@@ -128,7 +128,7 @@ public class PlayerTable : MonoBehaviour
                     this.transform.position.z + zOffset);
                 GameObject newCard = Instantiate(this.cardPrefab, vector,
                     Quaternion.identity, this.transform);
-                newCard.transform.localScale += new Vector3(-0.1f, -0.1f, 0);
+                newCard.transform.localScale += new Vector3(-0.19f, -0.19f, 0);
                 newCard.name = card;
                 newCard.tag = "PlayerSets";
                 newCard.GetComponent<Selectable>().faceUp = true;

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4824723797584811584}
   - component: {fileID: 8692791956380407262}
   - component: {fileID: -7682947428023158995}
-  - component: {fileID: 3334296881255572661}
-  - component: {fileID: -7796798919763108270}
+  - component: {fileID: 7094670513624904515}
+  - component: {fileID: 6125758644668575872}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6696042204506523653}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -10, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.115, y: 0.115, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -50,6 +50,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a94ff71d11aec9749bbbe2f80ac03ac1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 35b1aa564e0affa44b391cd24c36727c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardFace: {fileID: 0}
-  cardBack: {fileID: 21300000, guid: a94ff71d11aec9749bbbe2f80ac03ac1, type: 3}
+  cardBack: {fileID: 21300000, guid: 35b1aa564e0affa44b391cd24c36727c, type: 3}
 --- !u!114 &-7682947428023158995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   faceUp: 0
---- !u!61 &3334296881255572661
+--- !u!61 &7094670513624904515
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,16 +130,16 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 7.26}
+    oldSize: {x: 20.48, y: 20.48}
     newSize: {x: 5, y: 7.26}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 7.26}
+  m_Size: {x: 12.48, y: 19.38}
   m_EdgeRadius: 0
---- !u!50 &-7796798919763108270
+--- !u!50 &6125758644668575872
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0

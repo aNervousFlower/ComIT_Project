@@ -33,7 +33,7 @@ public class OpponentHand : MonoBehaviour
                 this.transform.position.z + zOffset);
             GameObject newCard = Instantiate(this.cardPrefab, vector,
                 Quaternion.identity, this.transform);
-            newCard.transform.localScale += new Vector3(-0.1f, -0.1f, 0);
+            newCard.transform.localScale += new Vector3(-0.2f, -0.2f, 0);
             newCard.name = card;
             newCard.tag = "OpponentHand";
 // keep faceUp true during testing, switch to false for production
