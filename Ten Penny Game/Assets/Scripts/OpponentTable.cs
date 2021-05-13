@@ -165,7 +165,7 @@ public class OpponentTable : MonoBehaviour
                     this.transform.position.z + zOffset);
                 GameObject newCard = Instantiate(this.cardPrefab, vector,
                     Quaternion.identity, this.transform);
-                newCard.transform.localScale += new Vector3(-0.12f, -0.12f, 0);
+                newCard.transform.localScale += new Vector3(-0.17f, -0.17f, 0);
                 newCard.name = card;
                 newCard.tag = "OpponentSets";
                 newCard.GetComponent<Selectable>().faceUp = true;
