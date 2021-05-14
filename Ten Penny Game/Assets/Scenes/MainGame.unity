@@ -1243,6 +1243,8 @@ MonoBehaviour:
   cardPrefab: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
     type: 3}
   opponentTable: {fileID: 0}
+  deckVector: {x: -1, y: 0.7, z: 0}
+  discardVector: {x: 1, y: 0.7, z: 0}
 --- !u!4 &1016611788
 Transform:
   m_ObjectHideFlags: 0

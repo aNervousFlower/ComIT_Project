@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +9,16 @@ public class OpponentHand : MonoBehaviour
     public List<GameObject> cardObjectList {get;}
     public GameObject cardPrefab;
     public OpponentTable opponentTable;
+    public Vector3 deckVector;
+    public Vector3 discardVector;
     
     void Start()
     {
         this.opponentTable = FindObjectOfType<OpponentTable>();
+    }
+
+    void Update() {
+
     }
     
     public OpponentHand()
@@ -64,6 +71,40 @@ public class OpponentHand : MonoBehaviour
     {
 print("opponent draws " + card);
         this.cardList.Add(card);
+    }
+
+    public IEnumerator MoveCardToHand(Action continueTurnMethod)
+    {
+        GameObject drawnCardOb = Instantiate(this.cardPrefab, this.deckVector,
+            Quaternion.identity, this.transform);
+        drawnCardOb.transform.localScale += new Vector3(-0.2f, -0.2f, 0);
+        Vector3 vector = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y,
+            this.transform.position.z);
+
+        yield return drawnCardOb.GetComponent<UpdateSprite>().MoveCard(drawnCardOb, vector);
+
+        Destroy(drawnCardOb);
+        continueTurnMethod();
+    }
+
+    public IEnumerator MoveCardToDiscard(Action<string> endTurnMethod, string card)
+    {
+        Vector3 vector = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y,
+            this.transform.position.z);
+        GameObject discardOb = Instantiate(this.cardPrefab, vector,
+            Quaternion.identity, this.transform);
+        discardOb.transform.localScale += new Vector3(-0.2f, -0.2f, 0);
+        discardOb.name = card;
+        discardOb.GetComponent<Selectable>().faceUp = true;
+
+        yield return discardOb.GetComponent<UpdateSprite>().MoveCard(discardOb, this.discardVector);
+
+        Destroy(discardOb);
+        endTurnMethod(card);
     }
 
     public string DiscardCard()
