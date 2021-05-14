@@ -176,17 +176,32 @@ public class TenPenny : MonoBehaviour
         StartCoroutine(this.opponentHand.MoveCardToHand(this.ContinueOpponentTurn));
     }
 
-    // private void StartOpponentTurn()
-    // {
-    //     StartCoroutine(this.opponentHand.MoveCardToHand(this.ContinueOpponentTurn));
-    // }
-
     // split out this logic so game will wait for card to be drawn to opponent hand
     public void ContinueOpponentTurn()
     {
         DrawCardToOpponentHand();
+        this.opponentHand.RefreshHand();
         PlayCardsFromOpponentHand();
-        DiscardCardFromOpponentHand();
+        if (this.opponentHand.cardList.Count > 0)
+        {
+            string card = this.opponentHand.DiscardCard();
+            this.opponentHand.RefreshHand();
+            StartCoroutine(this.opponentHand.MoveCardToDiscard(this.EndOpponentTurn, card));
+        }
+        else
+        {
+            EndOpponentTurn();
+        }
+    }
+
+    // split out this logic so game will wait for card to be discarded
+    public void EndOpponentTurn(string card = "")
+    {
+        if (card != "")
+        {
+            this.discardPile.AddCard(card);
+        }
+
         if (this.opponentHand.cardList.Count == 0)
         {
             StartNewRound();
@@ -206,14 +221,6 @@ public class TenPenny : MonoBehaviour
     private void PlayCardsFromOpponentHand()
     {
         this.opponentHand.PlayCards(this.gameRound);
-    }
-
-    private void DiscardCardFromOpponentHand()
-    {
-        if (this.opponentHand.cardList.Count > 0)
-        {
-            this.discardPile.AddCard(this.opponentHand.DiscardCard());
-        }
     }
 
     public void CheckAndReplenishDeck()

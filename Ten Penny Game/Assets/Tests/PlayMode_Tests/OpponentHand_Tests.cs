@@ -12,7 +12,6 @@ namespace Tests
         public void DiscardCard_Test()
         {
             OpponentHand hand = new GameObject().AddComponent<OpponentHand>();
-            hand.deckButton = new GameObject();
             List<string> cardList = hand.cardList;
 
             hand.AddCard("D3");

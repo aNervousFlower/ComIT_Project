@@ -9,16 +9,12 @@ public class OpponentHand : MonoBehaviour
     public List<GameObject> cardObjectList {get;}
     public GameObject cardPrefab;
     public OpponentTable opponentTable;
-    public GameObject deckButton;
     public Vector3 deckVector;
+    public Vector3 discardVector;
     
     void Start()
     {
         this.opponentTable = FindObjectOfType<OpponentTable>();
-        this.deckVector = new Vector3(
-            this.deckButton.transform.position.x,
-            this.deckButton.transform.position.y,
-            this.deckButton.transform.position.z);
     }
 
     void Update() {
@@ -91,6 +87,24 @@ print("opponent draws " + card);
 
         Destroy(drawnCardOb);
         continueTurnMethod();
+    }
+
+    public IEnumerator MoveCardToDiscard(Action<string> endTurnMethod, string card)
+    {
+        Vector3 vector = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y,
+            this.transform.position.z);
+        GameObject discardOb = Instantiate(this.cardPrefab, vector,
+            Quaternion.identity, this.transform);
+        discardOb.transform.localScale += new Vector3(-0.2f, -0.2f, 0);
+        discardOb.name = card;
+        discardOb.GetComponent<Selectable>().faceUp = true;
+
+        yield return discardOb.GetComponent<UpdateSprite>().MoveCard(discardOb, this.discardVector);
+
+        Destroy(discardOb);
+        endTurnMethod(card);
     }
 
     public string DiscardCard()
