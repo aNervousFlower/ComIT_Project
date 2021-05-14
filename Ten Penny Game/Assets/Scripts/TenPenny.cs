@@ -173,6 +173,17 @@ public class TenPenny : MonoBehaviour
 
     private void OpponentTurn()
     {
+        StartCoroutine(this.opponentHand.MoveCardToHand(this.ContinueOpponentTurn));
+    }
+
+    // private void StartOpponentTurn()
+    // {
+    //     StartCoroutine(this.opponentHand.MoveCardToHand(this.ContinueOpponentTurn));
+    // }
+
+    // split out this logic so game will wait for card to be drawn to opponent hand
+    public void ContinueOpponentTurn()
+    {
         DrawCardToOpponentHand();
         PlayCardsFromOpponentHand();
         DiscardCardFromOpponentHand();

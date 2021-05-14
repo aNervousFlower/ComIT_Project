@@ -1240,9 +1240,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19303d3e79e9a094b85d6dcf1387f5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawnCard: 
+  drawnCardOb: {fileID: 0}
   cardPrefab: {fileID: 6696042204506523653, guid: 863ffc96738ce2641a6bd9fe85a6a783,
     type: 3}
   opponentTable: {fileID: 0}
+  deckButton: {fileID: 192554219}
+  deckVector: {x: 0, y: 0, z: 0}
 --- !u!4 &1016611788
 Transform:
   m_ObjectHideFlags: 0

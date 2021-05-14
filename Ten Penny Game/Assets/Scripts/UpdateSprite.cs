@@ -51,4 +51,22 @@ public class UpdateSprite : MonoBehaviour
     {
         return this.spriteRenderer.color;
     }
+
+    public IEnumerator MoveCard(GameObject card, Vector3 destination)
+    {
+        yield return StartCoroutine(MoveOverSeconds(card, destination, .5f));
+    }
+
+    public IEnumerator MoveOverSeconds (GameObject objectToMove, Vector3 end, float seconds)
+    {
+        float elapsedTime = 0;
+        Vector3 startingPos = objectToMove.transform.position;
+        while (elapsedTime < seconds)
+        {
+            objectToMove.transform.position = Vector3.Lerp(startingPos, end, (elapsedTime / seconds));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        objectToMove.transform.position = end;
+    }
 }

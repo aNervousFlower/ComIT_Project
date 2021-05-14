@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +9,20 @@ public class OpponentHand : MonoBehaviour
     public List<GameObject> cardObjectList {get;}
     public GameObject cardPrefab;
     public OpponentTable opponentTable;
+    public GameObject deckButton;
+    public Vector3 deckVector;
     
     void Start()
     {
         this.opponentTable = FindObjectOfType<OpponentTable>();
+        this.deckVector = new Vector3(
+            this.deckButton.transform.position.x,
+            this.deckButton.transform.position.y,
+            this.deckButton.transform.position.z);
+    }
+
+    void Update() {
+
     }
     
     public OpponentHand()
@@ -64,6 +75,22 @@ public class OpponentHand : MonoBehaviour
     {
 print("opponent draws " + card);
         this.cardList.Add(card);
+    }
+
+    public IEnumerator MoveCardToHand(Action continueTurnMethod)
+    {
+        GameObject drawnCardOb = Instantiate(this.cardPrefab, this.deckVector,
+            Quaternion.identity, this.transform);
+        drawnCardOb.transform.localScale += new Vector3(-0.2f, -0.2f, 0);
+        Vector3 vector = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y,
+            this.transform.position.z);
+
+        yield return drawnCardOb.GetComponent<UpdateSprite>().MoveCard(drawnCardOb, vector);
+
+        Destroy(drawnCardOb);
+        continueTurnMethod();
     }
 
     public string DiscardCard()
